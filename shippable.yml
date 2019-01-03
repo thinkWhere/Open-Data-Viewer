@@ -12,10 +12,6 @@ env:
 build:
 
     ci:
-        # Install awscli
-        - pip install --upgrade pip
-        - pip install awscli
-
         # Install NPM packages and build client
         - node --version
         - pwd
@@ -26,4 +22,4 @@ build:
 
     on_success:
         # Run deploy script to manage deploy to appropriate environment
-        - aws s3 sync build/ s3://fairer-falkirk
+        - . ./deploy.sh
