@@ -13,7 +13,8 @@ build:
 
     ci:
         # Install awscli
-        - pip install awscli --upgrade --user
+        - pip install --upgrade pip
+        - pip install awscli
 
         # Install NPM packages and build client
         - node --version
