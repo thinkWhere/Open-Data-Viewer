@@ -22,7 +22,7 @@ export default class Map extends React.Component {
         L.control.scale({ position: "bottomleft"}).addTo(map);
 
         // Define the basemap
-        const tileLayer = L.tileLayer(mapConfig.tileLayer.uri, mapConfig.tileLayer.params).addTo(map);
+        L.tileLayer(mapConfig.tileLayer.uri, mapConfig.tileLayer.params).addTo(map);
     }
 
     render() {
