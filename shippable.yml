@@ -23,3 +23,10 @@ build:
     on_success:
         # Run deploy script to manage deploy to appropriate environment
         - . ./deploy.sh
+
+integrations:
+    notifications:
+        - integrationName: email
+          type: email
+          recipients:
+              - martin.clarke@thinkwhere.com
