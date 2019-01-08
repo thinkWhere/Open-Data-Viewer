@@ -9,12 +9,12 @@ export default class Map extends React.Component {
         this.state = {
             map: null,
         };
-        this.map_node = null;
+        this.mapNode = null;
     }
 
     componentDidMount() {
         // Initialise map
-        this.init(this.map_node);
+        this.init(this.mapNode);
     }
 
     init(id) {
@@ -26,6 +26,6 @@ export default class Map extends React.Component {
     }
 
     render() {
-        return <div ref={(node) => this.map_node = node} id="map"  />;
+        return <div ref={(node) => this.mapNode = node} id="map"  />;
     }
 }
