@@ -8,15 +8,10 @@ export default class OverPassAPIService {
                              out body;>;out skel qt;`;
 
         const options = {
+            // Flatten geojson structure
             flatProperties: true
         };
 
         query_overpass(query, callback, options);
-    }
-
-    dataHandler = (error, osmData) => {
-        if (!error && osmData.features !== undefined) {
-            return osmData;
-        }
     }
 }
