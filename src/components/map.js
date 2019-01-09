@@ -39,7 +39,6 @@ export default class Map extends React.Component {
     * Sets a geojson theme as a layer on the mapNode
     * @param {Leaflet.map} refMap - An instance of Leaflet.map
     */
-
     setTheme(refMap) {
     this.APIService.getTheme((error, osmData) => {
         if (!error && osmData.features !== undefined) {
@@ -61,6 +60,12 @@ export default class Map extends React.Component {
             };
         })
     }
+
+    onEachFeature(feature, layer) {
+        if (feature.properties.name) {
+            layer.bindPopup(feature.properties.name);
+        }
+     }
 
     render() {
         return <div ref={(node) => this.mapNode = node} id="map"  />;
