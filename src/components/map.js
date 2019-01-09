@@ -9,18 +9,14 @@ export default class Map extends React.Component {
         super(props);
         this.state = {
             map: null,
-            geojson: null
-            //geojsonMarkers: []
         };
-        this.geojsonMarkers = [];
-        this.map_node = null;
+        this.mapNode = null;
         this.APIService = new OverPassAPIService();
     }
 
-
     componentDidMount() {
         // Initialise map
-        this.init(this.map_node);
+        this.init(this.mapNode);
     }
 
     init(id) {
@@ -39,43 +35,34 @@ export default class Map extends React.Component {
         });
     }
 
+    /**
+    * Sets a geojson theme as a layer on the mapNode
+    * @param {Leaflet.map} refMap - An instance of Leaflet.map
+    */
+
     setTheme(refMap) {
-        this.APIService.getTheme((error, osmData) => {
-            if (!error && osmData.features !== undefined) {
-                let geojson = L.geoJSON(osmData, {
-                    onEachFeature:this.onEachFeature
-                }).addTo(refMap);
+    this.APIService.getTheme((error, osmData) => {
+        if (!error && osmData.features !== undefined) {
+            let geojson = L.geoJSON(osmData, {
+                onEachFeature: this.onEachFeature
+            }).addTo(refMap);
 
-                // The geojson data received from OSM may include both points (nodes) and polygons(ways), but
-                // leaflet only adds markers to points by default. So we need to add markers to the polyon
-                // centroids
-                geojson.eachLayer(function(layer) {
-                    if (layer.feature.geometry.type === 'Polygon') {
-                        let bounds = layer.getBounds();
-                        let center = bounds.getCenter();
-                        let marker = L.marker(center);
-                        marker.addTo(refMap);
-                    }});
-                };
-            })
-        }
+            // The geojson data received from OSM may include both points (nodes) and polygons(ways), but
+            // leaflet only adds markers to points by default. So we need to add markers to the polyon
+            // centroids
+            geojson.eachLayer(function(layer) {
+                if (layer.feature.geometry.type === 'Polygon') {
+                    let bounds = layer.getBounds();
+                    let center = bounds.getCenter();
+                    let marker = L.marker(center);
+                    marker.addTo(refMap);
+                    }
+                });
+            };
+        })
+    }
 
-    onEachFeature(feature, layer) {
-     layer.bindPopup(feature.properties.name);
-     if (feature.geometry.type === 'Polygon') {
-         let bounds = layer.getBounds();
-         let center = bounds.getCenter();
-         let marker = L.marker(bounds);
-     }
- }
-
-
-   addPolygonMarkers() {
-       for (let marker of this.geojsonMarkers) {
-           marker.addTo(this.state.map);
-       }
-   }
     render() {
-        return <div ref={(node) => this.map_node = node} id="map"  />;
+        return <div ref={(node) => this.mapNode = node} id="map"  />;
     }
 }
