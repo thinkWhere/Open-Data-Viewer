@@ -40,27 +40,27 @@ export default class Map extends React.Component {
     * @param {Leaflet.map} refMap - An instance of Leaflet.map
     */
     setTheme(refMap) {
-    this.APIService.getTheme((error, osmData) => {
-        if (!error && osmData.features !== undefined) {
-            let geojson = L.geoJSON(osmData, {
-                onEachFeature: this.onEachFeature
-            }).addTo(refMap);
+        this.APIService.getTheme((error, osmData) => {
+            if (!error && osmData.features !== undefined) {
+                let geojson = L.geoJSON(osmData, {
+                    onEachFeature: this.onEachFeature
+                }).addTo(refMap);
 
-            // The geojson data received from OSM may include both points (nodes) and polygons(ways), but
-            // leaflet only adds markers to points by default. So we need to add markers to the polyon
-            // centroids
-            geojson.eachLayer(function(layer) {
-                if (layer.feature.geometry.type === 'Polygon') {
-                    let bounds = layer.getBounds();
-                    let center = bounds.getCenter();
-                    let marker = L.marker(center);
-                    marker.addTo(refMap);
+                // The geojson data received from OSM may include both points (nodes) and polygons(ways), but
+                // leaflet only adds markers to points by default. So we need to add markers to the polyon
+                // centroids
+                geojson.eachLayer(function(layer) {
+                    if (layer.feature.geometry.type === 'Polygon') {
+                        let bounds = layer.getBounds();
+                        let center = bounds.getCenter();
+                        let marker = L.marker(center);
+                        marker.addTo(refMap);
                     }
                 });
             };
         })
     }
-
+                                                                               
     onEachFeature(feature, layer) {
         if (feature.properties.name) {
             layer.bindPopup(feature.properties.name);
