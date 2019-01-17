@@ -2,7 +2,8 @@ import React from 'react';
 import L from 'leaflet';
 import './map.css';
 import { mapConfig }from '../config.js';
-import OverPassAPIService  from '../services/overpass.js'
+import OverPassAPIService  from '../services/overpass.js';
+import { Popup } from "./popup";
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -54,6 +55,7 @@ export default class Map extends React.Component {
                         let bounds = layer.getBounds();
                         let center = bounds.getCenter();
                         let marker = L.marker(center);
+                        marker.bindPopup(Popup(layer.feature.properties));
                         marker.addTo(refMap);
                     }
                 });
@@ -63,7 +65,7 @@ export default class Map extends React.Component {
                                                                                
     onEachFeature(feature, layer) {
         if (feature.properties.name) {
-            layer.bindPopup(feature.properties.name);
+            layer.bindPopup(Popup(layer.feature.properties))
         }
      }
 
