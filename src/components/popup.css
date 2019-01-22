@@ -2,7 +2,20 @@
     padding: 0px 5px 0px 5px;
 }
 
+.wheelchair-access {
+    color: #00b300;
+}
+
+.wheelchair-no-access {
+    color:  #e60000;
+}
+
+.wheelchair-partial-access {
+    color: #ffcc00;
+}
+
 .opening-times-td {
     padding-bottom: 0px !important;
     padding-right: 2px !important;
 }
+

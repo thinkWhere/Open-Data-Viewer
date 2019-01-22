@@ -68,7 +68,7 @@ function OpeningTimes(props) {
     }
 
     const element = (
-        <div> {openTimesList &&
+        <div class="pt-2"> {openTimesList &&
             <div>
                 <a className="text-decoration-none text-reset" data-toggle="collapse" href="#address">
                     <em>Opening Times</em>
@@ -118,6 +118,41 @@ function Services(props) {
 }
 
 /**
+ * React function component describes Wheelchair accessibility
+ * @param props - OSM feature properties
+ * @return {React Component}
+ */
+function WheelchairAccess(props) {
+    let wheelchairAccess = props.feature['wheelchair'];
+    if (!wheelchairAccess) {return null};
+
+    const element = (
+        <div>
+            {wheelchairAccess.toLowerCase() === 'yes' &&
+            <div>
+                <span className="fa fa-wheelchair service-icon wheelchair-access"></span>
+                <span>Wheelchair Accessible</span>
+            </div>
+            }
+            {wheelchairAccess.toLowerCase() === 'no' &&
+            <div>
+                <span className="fa fa-wheelchair service-icon wheelchair-no-access"></span>
+                <span>No wheelchair access</span>
+            </div>
+            }
+            {wheelchairAccess.toLowerCase() === 'limited' &&
+            <div>
+                <span className="fa fa-wheelchair service-icon wheelchair-partial-access"></span>
+                <span>Limited wheelchair access</span>
+            </div>
+            }
+        </div>
+    );
+
+    return element;
+}
+
+/**
  * React Function component defines an information popup for Leaflet
  * @param props - osm feature props
  * @return {string} The react element rendered as a string
@@ -127,6 +162,7 @@ function Popup(props) {
     const element = (
             <div>
                 <FeatureDetails feature={props} />
+                <WheelchairAccess feature={props}/>
                 <OpeningTimes feature={props} />
                 <Services feature={props}/>
             </div>
