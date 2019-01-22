@@ -1,0 +1,8 @@
+body, html {
+ position: relative;
+ height: 100%;
+}
+
+body {
+ padding-top: 3.5rem !important;
+}

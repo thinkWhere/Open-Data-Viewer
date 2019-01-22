@@ -9,7 +9,8 @@ mapConfig.params = {
     zoom: 13,
     maxZoom: 19,
     minZoom: 11,
-    attributionControl: true
+    attributionControl: true,
+    zoomControl: false
 };
 mapConfig.tileLayer = {
     uri: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png",
