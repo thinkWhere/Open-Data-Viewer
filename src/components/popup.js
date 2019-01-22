@@ -43,9 +43,28 @@ function OpeningTimes(props) {
     let openTimesListElement = null;
 
     if (openTimesList) {
-        openTimesListElement = openTimesList.map((oTime) =>
-            <li key="{'open' + openTimesList.indexOf(oTime)}">{oTime}</li>
-        );
+        if(openTimesList.length === 1){
+            // Assume here we have a free text entry into the opening times tag, so return the text as is.
+            openTimesListElement = (
+                <tr key="{'open' + openTimesList.indexOf(oTime)}">
+                    <td class="opening-times-td">{openTimesList[0]}</td>
+                </tr>
+            )
+        }
+        else {
+            openTimesListElement = openTimesList.map((oTime) => {
+                let splitTimes = oTime.trim().split(" ");
+                let days = splitTimes[0];
+                let times = splitTimes[1];
+                let openTimesElement = (
+                    <tr key="{'open' + openTimesList.indexOf(oTime)}">
+                        <td class="opening-times-td">{days}</td>
+                        <td class="opening-times-td">{times}</td>
+                    </tr>
+                )
+                return openTimesElement;
+            });
+        }
     }
 
     const element = (
@@ -58,7 +77,7 @@ function OpeningTimes(props) {
             </div>
             }
             <div className="collapse" id="address">
-                <ul className="list-unstyled">{openTimesListElement}</ul>
+                <table class="table-sm">{openTimesListElement}</table>
             </div>
         </div>
     );
