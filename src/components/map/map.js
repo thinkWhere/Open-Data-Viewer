@@ -1,10 +1,11 @@
 import React from 'react';
 import L from 'leaflet';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import 'leaflet-geosearch/assets/css/leaflet.css';
 import './map.css';
 import { mapConfig }from '../../config.js';
 import OverPassAPIService  from '../../services/overpass.js';
 import { Popup } from "../popup/popup";
-
 
 export default class Map extends React.Component {
     constructor(props) {
@@ -41,11 +42,56 @@ export default class Map extends React.Component {
         L.control.zoom({ position: 'topright' }).addTo(this.map);
         L.tileLayer(mapConfig.tileLayer.uri, mapConfig.tileLayer.params).addTo(this.map);
 
+        const zoomReset = this.setResetZoom();
+        this.map.addControl(zoomReset);
+
+        const searchControl = this.setLocationSearch();
+        this.map.addControl(searchControl);
+
         // Add geojson data from the OSM API
         this.props.themes.forEach(theme => {
             this.setTheme(theme);
         });
     }
+
+    /**
+     * Set the OSM Nominatim search control
+     */
+    setLocationSearch() {
+        let params = mapConfig.search;
+        let provider = new OpenStreetMapProvider({params: params});
+        let searchControl = new GeoSearchControl({
+            provider: provider,
+            style: 'button',
+            position: 'topright',
+            searchLabel: 'Search for a location or feature',
+            autoClose: true,
+            keepResult: true
+        });
+
+        return searchControl;
+    }
+
+    /**
+     * Defines a custom zoom control to reset map to default zoom
+     * @return {L.Control}
+     */
+    setResetZoom() {
+        let control = new L.Control({position: 'topright'});
+        control.onAdd = map => {
+            let controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
+            let controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
+            controlZoomReset.title = "Reset Map View";
+
+            L.DomEvent
+                .addListener(controlZoomReset, 'click', function () {
+                    map.setView(map.options.center, map.options.zoom);
+                }, controlZoomReset);
+            return controlDiv;
+        };
+        return control;
+    }
+
 
     /**
     * Sets a geojson theme as a layer on the mapNode

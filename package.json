@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "leaflet": "^1.4.0",
+    "leaflet-geosearch": "^2.7.0",
     "query-overpass": "^1.5.3",
     "react": "^16.7.0",
     "react-burger-menu": "^2.6.1",

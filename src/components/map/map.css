@@ -2,9 +2,49 @@
     height: 100vh;
 }
 
-/* Override the leaflet zoom control positioning */
-.leaflet-control-zoom {
+/* Override the leaflet zoom control positioning so controls are not lost behind navbar*/
+.leaflet-right.leaflet-top {
     position: fixed !important;
     top: 75px !important;
     right: 10px !important;
+}
+
+.results.active div {
+    text-align: left !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+}
+
+.leaflet-right .leaflet-control-geosearch form {
+    border-right: inherit !important;
+}
+
+/* Set the Widths of search bar
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .leaflet-control-geosearch .results.active {
+      width: 80vw !important;
+    }
+}
+
+/*Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (max-width: 768px) and (min-width: 600px) {
+.leaflet-control-geosearch .results.active {
+      width: 75vw !important;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 1100px) and (min-width: 768px) {
+.leaflet-control-geosearch .results.active {
+      width: 50vw !important;
+    }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 1100px) {
+    .leaflet-control-geosearch .results.active {
+      width: 30vw !important;
+    }
 }
