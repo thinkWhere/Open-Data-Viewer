@@ -1,5 +1,5 @@
 import React from 'react';
-import {slide as Menu} from 'react-burger-menu';
+import { slide as Menu } from 'react-burger-menu';
 import './sidebar.css';
 
 export default class Sidebar extends React.Component {

@@ -1,0 +1,10 @@
+#map {
+    height: 100vh;
+}
+
+/* Override the leaflet zoom control positioning */
+.leaflet-control-zoom {
+    position: fixed !important;
+    top: 75px !important;
+    right: 10px !important;
+}

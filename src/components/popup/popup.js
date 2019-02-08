@@ -47,7 +47,7 @@ function OpeningTimes(props) {
             // Assume here we have a free text entry into the opening times tag, so return the text as is.
             openTimesListElement = (
                 <tr key="{'open' + openTimesList.indexOf(oTime)}">
-                    <td class="opening-times-td">{openTimesList[0]}</td>
+                    <td className="opening-times-td">{openTimesList[0]}</td>
                 </tr>
             )
         }
@@ -58,8 +58,8 @@ function OpeningTimes(props) {
                 let times = splitTimes[1];
                 let openTimesElement = (
                     <tr key="{'open' + openTimesList.indexOf(oTime)}">
-                        <td class="opening-times-td">{days}</td>
-                        <td class="opening-times-td">{times}</td>
+                        <td className="opening-times-td">{days}</td>
+                        <td className="opening-times-td">{times}</td>
                     </tr>
                 )
                 return openTimesElement;
@@ -68,7 +68,7 @@ function OpeningTimes(props) {
     }
 
     const element = (
-        <div class="pt-2"> {openTimesList &&
+        <div className="pt-2"> {openTimesList &&
             <div>
                 <a className="text-decoration-none text-reset" data-toggle="collapse" href="#address">
                     <em>Opening Times</em>
@@ -77,7 +77,7 @@ function OpeningTimes(props) {
             </div>
             }
             <div className="collapse" id="address">
-                <table class="table-sm">{openTimesListElement}</table>
+                <table className="table-sm">{openTimesListElement}</table>
             </div>
         </div>
     );
@@ -103,7 +103,7 @@ function Services(props) {
     // TODO search for compound tags for internet cost
 
     const element = (
-        <div class="pt-2">
+        <div className="pt-2">
             <em>Services</em><br/>
             {internetAccess &&
             <div>

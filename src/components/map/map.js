@@ -1,9 +1,9 @@
 import React from 'react';
 import L from 'leaflet';
 import './map.css';
-import { mapConfig }from '../config.js';
-import OverPassAPIService  from '../services/overpass.js';
-import { Popup } from "./popup";
+import { mapConfig }from '../../config.js';
+import OverPassAPIService  from '../../services/overpass.js';
+import { Popup } from "../popup/popup";
 
 
 export default class Map extends React.Component {
@@ -80,6 +80,7 @@ export default class Map extends React.Component {
                     }
                 });
                 this.markerLayers[theme.name].addTo(this.map);
+                this.props.dataLoaded();
             }
         })
     }

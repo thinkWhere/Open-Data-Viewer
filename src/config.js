@@ -16,7 +16,7 @@ mapConfig.tileLayer = {
     uri: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png",
     params: {
         minZoom: 11,
-        attribution: "&amp;copy <a href=&quot;https://wikimediafoundation.org/wiki/Maps_Terms_of_Use&quot;>Wikimedia</a>",
+        attribution: "&copy; OpenStreetMap contributors &amp; <a href=&quot;https://wikimediafoundation.org/wiki/Maps_Terms_of_Use&quot;>Wikimedia</a>",
         id: '',
         accessToken: ''
     }
