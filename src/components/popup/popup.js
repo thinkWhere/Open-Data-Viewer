@@ -12,9 +12,11 @@ function FeatureDetails(props) {
     const element = (
         <div>
             <h6 className="mb-0">{props.feature.name}</h6>
+            {address &&
             <p className="mb-1 mt-0 text-muted">
                 {address}<br/>
             </p>
+            }
             {props.feature.phone &&
             <div>
                 <span className="fa fa-phone service-icon"></span>
@@ -90,6 +92,9 @@ function OpeningTimes(props) {
  * @return {React Component}
  */
 function Services(props) {
+    let internetServices = props.feature['internet'];
+    if (!internetServices) { return null};
+
     let internetAccess = false;
     const internetTags = ['wlan', 'yes', 'terminal', 'wifi'];
 
@@ -104,9 +109,9 @@ function Services(props) {
 
     const element = (
         <div className="pt-2">
-            <em>Services</em><br/>
             {internetAccess &&
             <div>
+                <em>Services</em><br/>
                 <span className="fa fa-wifi service-icon"></span>
                 <span>Internet Access</span>
             </div>
@@ -163,7 +168,7 @@ function Popup(props) {
             <div>
                 <FeatureDetails feature={props} />
                 <WheelchairAccess feature={props}/>
-                <OpeningTimes feature={props} />
+                <OpeningTimes feature={props}/>
                 <Services feature={props}/>
             </div>
     );

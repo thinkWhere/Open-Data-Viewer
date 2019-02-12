@@ -86,3 +86,7 @@
 .bm-overlay {
   background: rgba(0, 0, 0, 0) !important;
 }
+
+.awesome-marker {
+    position: inherit !important;
+}

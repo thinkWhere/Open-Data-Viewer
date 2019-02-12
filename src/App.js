@@ -3,7 +3,7 @@ import Map from './components/map/map';
 import Sidebar from './components/sidebar/sidebar';
 import Navbar from './components/navbar/navbar';
 import './App.css';
-import { digitalAccess } from './themes/digital-access';
+import { appThemes } from "./config"
 import Spinner from './components/spinner/spinner';
 
 class App extends Component {
@@ -12,16 +12,12 @@ class App extends Component {
         super(props);
         this.state = {
             themeChange: null,
-            dataLoaded: false
+            dataLoaded: false,
+            loadedThemes: []
         };
 
-        //todo get and set themes
-        this.appThemes = [
-            {
-                name: 'digital',
-                definition: digitalAccess
-            }
-        ];
+        // appThemes stores the available themes for the map
+        this.appThemes = appThemes;
 
         // Bind methods to class
         this.setThemeState = this.setThemeState.bind(this);
@@ -32,8 +28,9 @@ class App extends Component {
         this.setState({themeChange:{[theme]: status}});
     }
 
-    onDataLoad() {
+    onDataLoad(theme) {
         this.setState({dataLoaded:true});
+        this.setState({loadedThemes: [...this.state.loadedThemes, theme]})
     }
 
 
@@ -41,7 +38,7 @@ class App extends Component {
         return (
             <div>
                 <Navbar/>
-                <Sidebar updateAppTheme={this.setThemeState} themes={this.appThemes}/>
+                <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes}/>
                 <Spinner showSpinner={!this.state.dataLoaded}/>
                 <div id="page-wrap">
                     <Map themes={this.appThemes} themeChange={this.state.themeChange} dataLoaded={this.onDataLoad} />

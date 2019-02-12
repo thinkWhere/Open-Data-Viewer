@@ -3,6 +3,8 @@ import L from 'leaflet';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import 'leaflet-geosearch/assets/css/leaflet.css';
 import './map.css';
+import 'leaflet.awesome-markers';
+import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import { mapConfig }from '../../config.js';
 import OverPassAPIService  from '../../services/overpass.js';
 import { Popup } from "../popup/popup";
@@ -16,11 +18,13 @@ export default class Map extends React.Component {
         this.map = null;
         this.geoJSONLayers = {};
         this.markerLayers = {};
+        this.loadingTheme = null;
 
         // Bind class methods
         this.setTheme = this.setTheme.bind(this);
         this.updateMapThemes = this.updateMapThemes.bind(this);
-
+        this.createCustomMarker = this.createCustomMarker.bind(this);
+        this.bindCustomPopup = this.bindCustomPopup.bind(this);
     }
 
     componentDidMount() {
@@ -100,13 +104,15 @@ export default class Map extends React.Component {
     setTheme(theme) {
         this.APIService.getTheme(theme, (error, osmData) => {
             if (!error && osmData.features !== undefined) {
+                this.loadingTheme = theme;
 
                 /* A reference to a geojson layer is stored in the class prop geoJSONLayers object
                 in the format {layerName: <instance of L.Layer>}, this allows us to reference
                 it later when we want to add / remove layers from the map.
                  */
-                this.geoJSONLayers[theme.name] = L.geoJSON(osmData, {
-                    onEachFeature: this.onEachFeature
+                this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
+                    onEachFeature: this.bindCustomPopup,
+                    pointToLayer: this.createCustomMarker
                 }).addTo(this.map);
 
                 /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
@@ -115,27 +121,37 @@ export default class Map extends React.Component {
                  all markers at once.  The reference to the layerGroup is stored in the class prop markerLayers
                  in the format {layerGroupName: <instance of L.LayerGroup}.
                  */
-                this.markerLayers[theme.name] = L.layerGroup();
-                this.geoJSONLayers[theme.name].eachLayer(layer => {
+                this.markerLayers[theme.Name] = L.layerGroup();
+                this.geoJSONLayers[theme.Name].eachLayer(layer => {
                     if (layer.feature.geometry.type === 'Polygon') {
                         let bounds = layer.getBounds();
                         let center = bounds.getCenter();
-                        let marker = L.marker(center);
+                        let marker = this.createCustomMarker(null, center);
                         marker.bindPopup(Popup(layer.feature.properties));
-                        this.markerLayers[theme.name].addLayer(marker);
+                        this.markerLayers[theme.Name].addLayer(marker);
                     }
                 });
-                this.markerLayers[theme.name].addTo(this.map);
-                this.props.dataLoaded();
+                this.markerLayers[theme.Name].addTo(this.map);
+                this.props.dataLoaded(theme);
             }
         })
     }
-                                                                               
-    onEachFeature(feature, layer) {
+
+    createCustomMarker(feature, latlng) {
+        let awesomeMarker = L.AwesomeMarkers.icon({
+            icon: this.loadingTheme.mapConfig.mapIcon,
+            markerColor: this.loadingTheme.mapConfig.color,
+            prefix: 'fa',
+        });
+        return L.marker(latlng, {icon:awesomeMarker})
+    }
+
+    bindCustomPopup(feature, layer) {
         if (feature.properties.name) {
             layer.bindPopup(Popup(layer.feature.properties))
         }
      }
+
 
     /**
      * Adds / removes a layer from the map based on the themeChange object

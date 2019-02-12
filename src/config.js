@@ -1,3 +1,5 @@
+import { digiAccess } from './themes/digital-access';
+
 /* App config.
 mapConfig stores options for Leaflet maps.   tileLayer defines the provider
 for background mapping.
@@ -21,7 +23,6 @@ mapConfig.tileLayer = {
         accessToken: ''
     }
 };
-
 mapConfig.search = {
     // Defines the parameter for OSM nominatim search
     // See https://wiki.openstreetmap.org/wiki/Nominatim for details on search params
@@ -30,6 +31,8 @@ mapConfig.search = {
     limit: 10
 };
 
+let appThemes = [digiAccess];
+
 export {
-    mapConfig
+    mapConfig, appThemes
 };

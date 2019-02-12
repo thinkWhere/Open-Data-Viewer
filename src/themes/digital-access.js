@@ -1,5 +1,6 @@
-let digitalAccess = {
-    Title: "DigitalAccess",
+let digiAccess = {
+    Name: "digitalAccess",
+    Title: "Digital Access",
     Headline: "Shows locations of places with digital access services",
     Description: "Long description",
     Author: "MartinClarke",
@@ -14,10 +15,14 @@ let digitalAccess = {
         (way["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893);\
         relation["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893);\
         node["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893););\
-        out body;>;out skel qt;`
-};
+        out body;>;out skel qt;`,
+    mapConfig: {
+         mapIcon: "wifi",
+         color: "blue"
+    }
+    };
 
 export {
-    digitalAccess
+    digiAccess
 };
 
