@@ -17,10 +17,10 @@ export default class Navbar extends React.Component {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav">
-                            <li class="nav-item">
+                            <li className="nav-item">
                                 <button type="button" className="btn btn-unstyled"
                                         data-toggle="modal" data-target="#infoModal">
-                                    About <span class="fa fa-info-circle"></span></button>
+                                    About <span className="fa fa-info-circle"></span></button>
                             </li>
                         </ul>
                     </div>

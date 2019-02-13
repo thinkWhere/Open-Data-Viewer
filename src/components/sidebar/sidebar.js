@@ -38,7 +38,7 @@ export default class Sidebar extends React.Component {
 
     render() {
         const menuItems = this.props.themes.map((theme) =>
-            <div className="menu-item">
+            <div className="menu-item" key="{'menuItem' + this.props.themes.indexOf(theme)}">
                 <div className={this.state[theme.Name] ? 'theme-active media' : 'theme-disable media'}
                      onClick={((e) => this.toggleTheme(theme.Name))} data-id={theme.Name}>
                     <div className={`align-self-end mr-3 awesome-marker-icon-${theme.mapConfig.color} awesome-marker`}>

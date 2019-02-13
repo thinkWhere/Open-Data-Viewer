@@ -5,7 +5,7 @@ export default class InformationModal extends React.Component {
     render() {
 
         const element = (
-            <div className="modal fade" id="infoModal" tabindex="-1" role="dialog"
+            <div className="modal fade" id="infoModal" tabIndex="-1" role="dialog"
                  aria-labelledby="modalTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">

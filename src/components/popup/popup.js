@@ -3,36 +3,68 @@ import ReactDOMServer from 'react-dom/server';
 import './popup.css';
 
 /**
- * React function component describes an OSM feature - name, address, phone, website
- * @param props - OSM feature properties
+ * React function component describes an OSM feature name and address
  * @return {React Component}
  */
-function FeatureDetails(props) {
-    const address = parseAddress(props.feature);
+function AddressDetails(props) {
+    const address = parseAddress(props);
     const element = (
         <div>
-            <h6 className="mb-0">{props.feature.name}</h6>
+            <h6 className="mb-0">{props.name}</h6>
             {address &&
             <p className="mb-1 mt-0 text-muted">
                 {address}<br/>
             </p>
             }
-            {props.feature.phone &&
-            <div>
-                <span className="fa fa-phone service-icon"></span>
-                <span>{props.feature.phone}</span>
-            </div>
-            }
-            {props.feature.website &&
-            <div>
-                <span className="fa fa-globe-europe service-icon"></span>
-                <span><a href={props.feature.website} target="_blank" rel="noopener noreferrer">Website</a></span>
-            </div>
-            }
         </div>
     );
     return element;
 }
+
+/**
+ * React function component describes an OSM feature deatails- phone, website
+ * @param props - OSM feature properties
+ * @return {React Component}
+ */
+function FeatureDetails(props) {
+    let hasFeatureDetails = !!(props.phone || props.website || props.wheelchair);
+    if (!hasFeatureDetails) { return null };
+
+    const featureDetails = (
+        <div>
+            {props.phone &&
+            <div>
+                <span className="fa fa-phone service-icon"></span>
+                <span>{props.phone}</span>
+            </div>
+            }
+            {props.website &&
+            <div>
+                <span className="fa fa-globe-europe service-icon"></span>
+                <span><a href={props.website} target="_blank" rel="noopener noreferrer">Website</a></span>
+            </div>
+            }
+        </div>
+    );
+
+    const element = (
+        <div className="pt-2"> {hasFeatureDetails &&
+            <div>
+                <a className="text-decoration-none text-reset" data-toggle="collapse" href="#featureDetails">
+                    <em>Details</em>
+                    <span className="fa fa-chevron-down service-icon"></span>
+                </a>
+            </div>
+            }
+            <div className="collapse" id="featureDetails">
+                <table className="table-sm">{featureDetails}</table>
+                <WheelchairAccess {...props}/>
+            </div>
+        </div>
+    );
+    return element;
+}
+
 
 /**
  * React function component describes the opening times of an OSM feature
@@ -41,7 +73,7 @@ function FeatureDetails(props) {
  */
 function OpeningTimes(props) {
 
-    let openTimesList = props.feature.opening_hours ? props.feature.opening_hours.split(";") : null;
+    let openTimesList = props.opening_hours ? props.opening_hours.split(";") : null;
     let openTimesListElement = null;
 
     if (openTimesList) {
@@ -63,7 +95,7 @@ function OpeningTimes(props) {
                         <td className="opening-times-td">{days}</td>
                         <td className="opening-times-td">{times}</td>
                     </tr>
-                )
+                );
                 return openTimesElement;
             });
         }
@@ -92,32 +124,28 @@ function OpeningTimes(props) {
  * @return {React Component}
  */
 function Services(props) {
-    let internetServices = props.feature['internet'];
-    if (!internetServices) { return null};
-
+    let internetTagValue = props['internet_access'];
     let internetAccess = false;
     const internetTags = ['wlan', 'yes', 'terminal', 'wifi'];
 
     // Search for simple tags
-    let internetTagValue = props.feature['internet_access'];
     if (internetTagValue && internetTags.includes(internetTagValue.toLowerCase())) {
         internetAccess = true;
     }
+
+    if (!internetAccess) { return null };
 
     // Search for compound tags
     // TODO search for compound tags for internet cost
 
     const element = (
-        <div className="pt-2">
-            {internetAccess &&
+        <div className="pt-1">
             <div>
                 <em>Services</em><br/>
                 <span className="fa fa-wifi service-icon"></span>
                 <span>Internet Access</span>
             </div>
-            }
         </div>
-
     );
     return element;
 }
@@ -128,7 +156,7 @@ function Services(props) {
  * @return {React Component}
  */
 function WheelchairAccess(props) {
-    let wheelchairAccess = props.feature['wheelchair'];
+    let wheelchairAccess = props['wheelchair'];
     if (!wheelchairAccess) {return null};
 
     const element = (
@@ -138,6 +166,7 @@ function WheelchairAccess(props) {
                 <span className="fa fa-wheelchair service-icon wheelchair-access"></span>
                 <span>Wheelchair Accessible</span>
             </div>
+
             }
             {wheelchairAccess.toLowerCase() === 'no' &&
             <div>
@@ -166,10 +195,10 @@ function Popup(props) {
 
     const element = (
             <div>
-                <FeatureDetails feature={props} />
-                <WheelchairAccess feature={props}/>
-                <OpeningTimes feature={props}/>
-                <Services feature={props}/>
+                <AddressDetails {...props}/>
+                <Services {...props}/>
+                <FeatureDetails {...props} />
+                <OpeningTimes {...props} />
             </div>
     );
     // Return a string as this is format required by leaflet to bind to a feature
