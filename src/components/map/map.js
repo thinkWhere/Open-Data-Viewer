@@ -127,7 +127,7 @@ export default class Map extends React.Component {
                         let bounds = layer.getBounds();
                         let center = bounds.getCenter();
                         let marker = this.createCustomMarker(null, center);
-                        marker.bindPopup(Popup(layer.feature.properties));
+                        marker.bindPopup(Popup(layer.feature.properties, this.loadingTheme));
                         this.markerLayers[theme.Name].addLayer(marker);
                     }
                 });
@@ -148,7 +148,7 @@ export default class Map extends React.Component {
 
     bindCustomPopup(feature, layer) {
         if (feature.properties.name) {
-            layer.bindPopup(Popup(layer.feature.properties))
+            layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme))
         }
      }
 

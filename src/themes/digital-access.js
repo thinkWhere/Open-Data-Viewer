@@ -8,13 +8,21 @@ let digiAccess = {
     GeoTags: {
         "amenity": ["library", "community_centre"]
     },
-    AttributeTags: {
-        "internet_access": ["wlan", "yes", "terminal", "wifi", "service"]
-    },
+    AttributeTags: [
+         {  attributeName: "Internet Access",
+            attributeTag: "internet_access",
+            attributeValues: ["wlan", "yes", "terminal", "wifi", "service"],
+            icon: "wifi"
+        },
+        {   attributeName: "Printing Facilities",
+            attributeTag: "digital_access",
+            attributeValues: ["printing"],
+            icon: "print"
+        }
+    ],
     overpassQuery: `[out:json];\
-        (way["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893);\
-        relation["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893);\
-        node["amenity"~"(library|community_centre)$"]["internet_access"~"(yes|wlan|terminal|wifi|service)$"](around:25000,56.0019,-3.7893););\
+        (way["amenity"~"(library|community_centre)$"][~"^(internet_access|digital_access)$"~"."](around:20000,56.0019,-3.7893);\
+        node["amenity"~"(library|community_centre)$"][~"^(internet_access|digital_access)$"~"."](around:20000,56.0019,-3.7893););\
         out body;>;out skel qt;`,
     mapConfig: {
          mapIcon: "wifi",

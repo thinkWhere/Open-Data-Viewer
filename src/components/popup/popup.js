@@ -74,6 +74,13 @@ function FeatureDetails(props) {
 function OpeningTimes(props) {
 
     let openTimesList = props.opening_hours ? props.opening_hours.split(";") : null;
+    let serviceTimesList = props.service_times ? props.service_times.split(";") : null;
+    if (serviceTimesList) {
+        /* We make a decision here that service times overrides opening times.   We could display both but 'srvice times
+        may be confusing to the user */
+        openTimesList = serviceTimesList;
+    }
+
     let openTimesListElement = null;
 
     if (openTimesList) {
@@ -119,36 +126,76 @@ function OpeningTimes(props) {
 }
 
 /**
- * React function component describes the services associated with an OSM feature
+ * React function component describes the attributes associated with an OSM feature
  * @param props - OSM feature properties
  * @return {React Component}
  */
-function Services(props) {
-    let internetTagValue = props['internet_access'];
-    let internetAccess = false;
-    const internetTags = ['wlan', 'yes', 'terminal', 'wifi'];
+function ThemeDetails(props) {
+    let themeDetailsList = [];
 
-    // Search for simple tags
-    if (internetTagValue && internetTags.includes(internetTagValue.toLowerCase())) {
-        internetAccess = true;
+    for (let attribute of props.theme.AttributeTags) {
+        let featureTagValue = props.props[attribute.attributeTag];
+        if (!featureTagValue) {
+            continue;
+        }
+
+        /* The tag value might be a ';' delimited list (An osm convention) so we need to check for
+         this possibility */
+        let featureTagList = featureTagValue.split(';');
+
+        let attributeValuesList = attribute.attributeValues;
+        let attributeType = attribute.type;
+
+        let featureHasAttributeValue = false;
+        if (attributeValuesList.length === 0 ) {
+            // Empty list in config signifies that all values are permitted
+            featureHasAttributeValue = true;
+        } else {
+            for (let tag of featureTagList) {
+                if (attributeValuesList.includes(tag.toLowerCase())) {
+                    featureHasAttributeValue = true;
+                    break;
+                }
+            }
+        }
+
+        if (featureHasAttributeValue) {
+            let attributeDetail = (
+                <div className="pt-1">
+                    {(attributeType && attributeType === "description")
+                        ? <div class="media">
+                            <span className={`fa fa-${attribute.icon} service-icon`} style={{color: attribute.iconColor}}></span>
+                            <div class="media-body">
+                                {featureTagValue}
+                            </div>
+                        </div>
+                        : <div class="media">
+                            <span className={`fa fa-${attribute.icon} service-icon`} style={{color: attribute.iconColor}}></span>
+                            <div class="media-body">
+                                {attribute.attributeName}
+                            </div>
+                        </div>
+                    }
+                </div>
+            );
+            themeDetailsList.push(attributeDetail);
+        }
     }
 
-    if (!internetAccess) { return null };
-
-    // Search for compound tags
-    // TODO search for compound tags for internet cost
-
-    const element = (
-        <div className="pt-1">
-            <div>
-                <em>Services</em><br/>
-                <span className="fa fa-wifi service-icon"></span>
-                <span>Internet Access</span>
+    if (themeDetailsList.length > 0) {
+        const element = (
+            <div className="pt-1">
+                <div>
+                    <em>{props.theme.Title}</em><br/>
+                    {themeDetailsList}
+                </div>
             </div>
-        </div>
-    );
-    return element;
-}
+        );
+        return element;
+        } else {
+            return null;
+        }
+    }
 
 /**
  * React function component describes Wheelchair accessibility
@@ -191,12 +238,12 @@ function WheelchairAccess(props) {
  * @param props - osm feature props
  * @return {string} The react element rendered as a string
  */
-function Popup(props) {
+function Popup(props, theme) {
 
     const element = (
             <div>
                 <AddressDetails {...props}/>
-                <Services {...props}/>
+                <ThemeDetails props={props} theme={theme}/>
                 <FeatureDetails {...props} />
                 <OpeningTimes {...props} />
             </div>
