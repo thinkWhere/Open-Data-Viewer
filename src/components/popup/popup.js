@@ -87,7 +87,7 @@ function OpeningTimes(props) {
         if(openTimesList.length === 1){
             // Assume here we have a free text entry into the opening times tag, so return the text as is.
             openTimesListElement = (
-                <tr key="{'open' + openTimesList.indexOf(oTime)}">
+                <tr>
                     <td className="opening-times-td">{openTimesList[0]}</td>
                 </tr>
             )
@@ -98,7 +98,7 @@ function OpeningTimes(props) {
                 let days = splitTimes[0];
                 let times = splitTimes[1];
                 let openTimesElement = (
-                    <tr key="{'open' + openTimesList.indexOf(oTime)}">
+                    <tr key={`open + ${openTimesList.indexOf(oTime)}`}>
                         <td className="opening-times-td">{days}</td>
                         <td className="opening-times-td">{times}</td>
                     </tr>
@@ -161,17 +161,25 @@ function ThemeDetails(props) {
 
         if (featureHasAttributeValue) {
             let attributeDetail = (
-                <div className="pt-1">
+                <div className="pt-1" key={attribute.attributeName}>
                     {(attributeType && attributeType === "description")
-                        ? <div class="media">
-                            <span className={`fa fa-${attribute.icon} service-icon`} style={{color: attribute.iconColor}}></span>
-                            <div class="media-body">
+                        ? <div className="media">
+                            <div className="feature-icon-container d-flex justify-content-center">
+                                <div>
+                                    <span className={`fa fa-${attribute.icon}`} style={{color: attribute.iconColor}}></span>
+                                </div>
+                            </div>
+                            <div className="media-body">
                                 {featureTagValue}
                             </div>
                         </div>
-                        : <div class="media">
-                            <span className={`fa fa-${attribute.icon} service-icon`} style={{color: attribute.iconColor}}></span>
-                            <div class="media-body">
+                        : <div className="media">
+                            <div className="feature-icon-container d-flex justify-content-center">
+                                <div>
+                                    <span className={`fa fa-${attribute.icon} icon-centre`} style={{color: attribute.iconColor}}></span>
+                                </div>
+                            </div>
+                            <div className="media-body">
                                 {attribute.attributeName}
                             </div>
                         </div>

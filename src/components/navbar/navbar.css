@@ -1,3 +1,11 @@
 .navbar-component-top {
     z-index: 1200;
 }
+
+.navbar-btn-style{
+color:white!important;
+}
+
+.navbar-style{
+background-color:#003285!important;
+}

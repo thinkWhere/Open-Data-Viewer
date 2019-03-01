@@ -5,6 +5,8 @@ import Navbar from './components/navbar/navbar';
 import './App.css';
 import { appThemes } from "./config"
 import Spinner from './components/spinner/spinner';
+import InformationModal from "./components/infoModal/informationModal";
+import MapThemesModal from "./components/mapThemesModal/mapThemesModal";
 
 class App extends Component {
 
@@ -37,6 +39,8 @@ class App extends Component {
     render() {
         return (
             <div>
+                <InformationModal/>
+                <MapThemesModal themes={this.state.loadedThemes}/>
                 <Navbar/>
                 <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes}/>
                 <Spinner showSpinner={!this.state.dataLoaded}/>

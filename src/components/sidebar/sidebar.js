@@ -45,7 +45,7 @@ export default class Sidebar extends React.Component {
                         <i className={`fa fa-${theme.mapConfig.mapIcon} icon-white fa-inverse`}></i>
                     </div>
                     <div className="media-body">
-                        <h5 className="mt-2 active">{theme.Title}</h5>
+                        <h6 className="mt-2 active">{theme.Title}</h6>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@ export default class Sidebar extends React.Component {
         return (
             <Menu noOverlay>
                 <div className="menu-item">
-                    <h3 className="theme-active">Services</h3>
+                    <h4 className="theme-active">Our Services</h4>
                 </div>
                 {menuItems}
             </Menu>

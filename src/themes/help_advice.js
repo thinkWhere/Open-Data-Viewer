@@ -2,7 +2,7 @@ let helpAdvice = {
     Name: "helpAdvice",
     Title: "Community Information and Advice ",
     Headline: "Shows locations of places where advice is provided",
-    Description: "Long description",
+    Description: "Shows community based help and advice offices",
     Author: "MartinClarke",
     OSMFeatures: ["ways", "relations", "nodes"],
     GeoTags: {

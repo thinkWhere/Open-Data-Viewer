@@ -23,3 +23,7 @@
 .leaflet-popup-content {
     max-width: 250px !important;
 }
+
+.feature-icon-container {
+    width: 30px;
+}

@@ -2,7 +2,7 @@ let councilHelpAdvice = {
     Name: "councilHelp",
     Title: "Council Help & Advice",
     Headline: "Shows locations of places where council advice is provided",
-    Description: "Long description",
+    Description: "Shows the location of Falkirk council advice centres",
     Author: "MartinClarke",
     OSMFeatures: ["ways", "relations", "nodes"],
     GeoTags: {

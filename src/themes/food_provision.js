@@ -2,7 +2,8 @@ let foodProvision = {
     Name: "foodProvision",
     Title: "Community Food Provision",
     Headline: "Shows locations of places with food is provided",
-    Description: "Long description",
+    Description: "Locations of food banks and facilities providing food provision.  The information for each feature " +
+    "may describe any access limitations such as whether a referral is needed",
     Author: "MartinClarke",
     OSMFeatures: ["ways", "relations", "nodes"],
     GeoTags: {
