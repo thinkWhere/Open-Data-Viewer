@@ -17,7 +17,6 @@ export default class Map extends React.Component {
         this.APIService = new OverPassAPIService();
         this.map = null;
         this.geoJSONLayers = {};
-        this.markerLayers = {};
         this.loadingTheme = null;
 
         // Bind class methods
@@ -113,30 +112,63 @@ export default class Map extends React.Component {
                 this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
                     onEachFeature: this.bindCustomPopup,
                     pointToLayer: this.createCustomMarker
-                }).addTo(this.map);
+                });
 
                 /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
-                 leaflet only adds markers to points by default. So we need to add markers to the polygon
-                 centroids.  Marker layers are stored as a layerGroup as this allows us to add / remove
-                 all markers at once.  The reference to the layerGroup is stored in the class prop markerLayers
-                 in the format {layerGroupName: <instance of L.LayerGroup}.
-                 */
-                this.markerLayers[theme.Name] = L.layerGroup();
-                this.geoJSONLayers[theme.Name].eachLayer(layer => {
-                    if (layer.feature.geometry.type === 'Polygon') {
-                        let bounds = layer.getBounds();
-                        let center = bounds.getCenter();
-                        let marker = this.createCustomMarker(null, center);
-                        marker.bindPopup(Popup(layer.feature.properties, this.loadingTheme));
-                        this.markerLayers[theme.Name].addLayer(marker);
-                    }
-                });
-                this.markerLayers[theme.Name].addTo(this.map);
+                leaflet only adds markers to points by default. To get around this, points are created for each
+                polygon centroid and then added to the osm geojson layer.
+                */
+                let geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
+                for (let geoJSONLayer of geoJSONPointLayers) {
+                    geoJSONLayer.eachLayer(layer => {
+                        this.geoJSONLayers[theme.Name].addLayer(layer)
+                    })
+                }
+
+                this.geoJSONLayers[theme.Name].addTo(this.map);
                 this.props.dataLoaded(theme);
             }
         })
     }
 
+    /**
+     * Converts any polygon features within an L.geoJSON layer to a point based on the polygon centroid.
+     * Feature properties from the polygon are copied across to the point, and custom markers and popups added
+     * @param {L.geoJSON} geoJSONLayer
+     * @return {Array} - Array of L.GeoJSON objects
+     */
+    createGeoJSONPoints(geoJSONLayer) {
+        let geoJSONPoints = [];
+        geoJSONLayer.eachLayer(layer => {
+            if (layer.feature.geometry.type === 'Polygon') {
+                let polygonProps = layer.feature.properties;
+                let bounds = layer.getBounds();
+                let center = bounds.getCenter();
+                let marker = new L.marker(center);
+                let markerGeoJson = marker.toGeoJSON();
+
+                let pointLayer = L.geoJSON(markerGeoJson, {
+                    pointToLayer: this.createCustomMarker,
+                    onEachFeature: (feature, layer) => {
+                    // Copy across the feature properties from the polygon to point
+                        layer.feature.properties = polygonProps;
+                        if (feature.properties.name) {
+                            layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme))
+                        }
+                    }
+                });
+                geoJSONPoints.push(pointLayer);
+            }
+        });
+        return geoJSONPoints;
+    }
+
+    /**
+     * Creates custom AwesomeMarker at specified lat / long
+     * @param feature - geoJSON point feature passed by leaflet by default
+     * @param {L.latlng} latlng - feature coordinates in lat / long
+     * @return {L.marker}
+     */
     createCustomMarker(feature, latlng) {
         let awesomeMarker = L.AwesomeMarkers.icon({
             icon: this.loadingTheme.mapConfig.mapIcon,
@@ -146,12 +178,21 @@ export default class Map extends React.Component {
         return L.marker(latlng, {icon:awesomeMarker})
     }
 
+    /**
+     * Binds a popup to a geojson point feature.  Polygon geometries are ignored
+     * @param feature
+     * @param {L.geoJSON} layer
+     */
     bindCustomPopup(feature, layer) {
+        if (layer.feature.geometry.type === 'Polygon') {
+            // Popups are limited to point features only
+            return;
+        }
+
         if (feature.properties.name) {
             layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme))
         }
-     }
-
+    }
 
     /**
      * Adds / removes a layer from the map based on the themeChange object
@@ -165,8 +206,6 @@ export default class Map extends React.Component {
         if (themeStatus) {
             try {
                 this.map.addLayer(this.geoJSONLayers[themeName]);
-                // Also add any marker layers
-                this.map.addLayer(this.markerLayers[themeName]);
             } catch (ex) {
                 /* No action taken on the exception.  Here, we are just trying to catch Leaflet errors caused by
                 passing a dud link to a layer, which will cause Leaflet to complain.
@@ -176,7 +215,6 @@ export default class Map extends React.Component {
         else {
             try {
                 this.map.removeLayer(this.geoJSONLayers[themeName]);
-                this.map.removeLayer(this.markerLayers[themeName]);
             }
             catch (ex) {
                 // Ignoring this exception - see comment above
