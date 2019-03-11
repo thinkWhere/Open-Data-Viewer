@@ -13,7 +13,8 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            themeChange: null,
+            themeVisibility: {},
+            themeToggle: {},
             dataLoaded: false,
             loadedThemes: []
         };
@@ -27,11 +28,17 @@ class App extends Component {
     }
 
     setThemeState(theme, status) {
-        this.setState({themeChange:{[theme]: status}});
+        this.setState(
+            {
+                themeVisibility: {...this.state.themeVisibility, ...{[theme]: status}},
+                themeToggle: {[theme] : status},
+            });
+
     }
 
     onDataLoad(theme) {
         this.setState({dataLoaded:true});
+        this.setThemeState(theme.Name, true)
         this.setState({loadedThemes: [...this.state.loadedThemes, theme]})
     }
 
@@ -42,10 +49,10 @@ class App extends Component {
                 <InformationModal/>
                 <MapThemesModal themes={this.state.loadedThemes}/>
                 <Navbar/>
-                <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes}/>
+                {this.state.dataLoaded && <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes} themeToggle={this.state.themeVisibility} />}
                 <Spinner showSpinner={!this.state.dataLoaded}/>
                 <div id="page-wrap">
-                    <Map themes={this.appThemes} themeChange={this.state.themeChange} dataLoaded={this.onDataLoad} />
+                    <Map themes={this.appThemes} themeToggle={this.state.themeToggle} dataLoaded={this.onDataLoad} />
                 </div>
             </div>
         )

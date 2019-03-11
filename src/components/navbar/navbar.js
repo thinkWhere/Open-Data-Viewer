@@ -4,7 +4,7 @@ import './navbar.css';
 export default class Navbar extends React.Component {
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-primary navbar-component-top navbar-style">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,7 +27,7 @@ export default class Navbar extends React.Component {
                         </ul>
                     </div>
                 </nav>
-            </div>
+            </React.Fragment>
         );
     }
 }
