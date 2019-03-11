@@ -7,7 +7,6 @@ export default class Sidebar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
         this.toggleTheme = this.toggleTheme.bind(this);
     }
 
