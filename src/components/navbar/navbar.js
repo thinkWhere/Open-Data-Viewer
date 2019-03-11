@@ -5,7 +5,7 @@ export default function Navbar() {
     const navbar = (
         <React.Fragment>
             <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-primary navbar-component-top navbar-style">
-                <button class="navbar-brand btn btn-unstyled navbar-btn-style">Our Falkirk<span className="secondary-title"> - Local Support Services</span></button>
+                <button className="navbar-brand btn btn-unstyled navbar-btn-style">Our Falkirk<span className="secondary-title"> - Local Support Services</span></button>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
