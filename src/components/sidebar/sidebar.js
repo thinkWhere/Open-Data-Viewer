@@ -12,26 +12,10 @@ export default class Sidebar extends React.Component {
     }
 
     /**
-     * React lifecycle hook is used to check if themes property has changed; new themes are
-     * added to the state and set to true (i.e. visible) by default
-     * @param {object} prevProps - The previous component properties, passed automatically by react
-     */
-    // componentDidUpdate(prevProps) {
-    //     if (prevProps.themes !== this.props.themes) {
-    //         this.props.themes.forEach((theme) => {
-    //             // We set a state object for each theme which records whether the theme is active (i.e. visible)
-    //             this.setState({[theme.Name]: true});
-    //         });
-    //     }}
-
-    /**
      * Toggles a theme between true (visible) or false (not visible)
      * @param themeName
      */
     toggleTheme(themeName) {
-        // let currentState = this.state[themeName];
-        //this.setState({[themeName]: !currentState});
-        console.log(this.props.themeToggle)
         const currentState = this.props.themeToggle[themeName];
         this.props.updateAppTheme(themeName, !currentState);
     }
