@@ -159,11 +159,8 @@ export default class Map extends React.Component {
      * true (visible) or false (not visible)
      */
     updateMapThemes() {
-        let themeName = Object.keys(this.props.themeToggle)[0];
-        let themeStatus = this.props.themeToggle[themeName];
-
-        console.log(themeName);
-        console.log(themeStatus);
+        const themeName = Object.keys(this.props.themeToggle)[0];
+        const themeStatus = this.props.themeToggle[themeName];
 
         if (themeStatus) {
             try {
