@@ -118,12 +118,13 @@ export default class Map extends React.Component {
                 leaflet only adds markers to points by default. To get around this, points are created for each
                 polygon centroid and then added to the osm geojson layer.
                 */
-                let geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
-                for (let geoJSONLayer of geoJSONPointLayers) {
+                const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
+
+                geoJSONPointLayers.forEach((geoJSONLayer) => {
                     geoJSONLayer.eachLayer(layer => {
                         this.geoJSONLayers[theme.Name].addLayer(layer)
                     })
-                }
+                });
 
                 this.geoJSONLayers[theme.Name].addTo(this.map);
                 this.props.dataLoaded(theme);
@@ -141,11 +142,11 @@ export default class Map extends React.Component {
         let geoJSONPoints = [];
         geoJSONLayer.eachLayer(layer => {
             if (layer.feature.geometry.type === 'Polygon') {
-                let polygonProps = layer.feature.properties;
-                let bounds = layer.getBounds();
-                let center = bounds.getCenter();
-                let marker = new L.marker(center);
-                let markerGeoJson = marker.toGeoJSON();
+                const polygonProps = layer.feature.properties;
+                const bounds = layer.getBounds();
+                const center = bounds.getCenter();
+                const marker = new L.marker(center);
+                const markerGeoJson = marker.toGeoJSON();
 
                 let pointLayer = L.geoJSON(markerGeoJson, {
                     pointToLayer: this.createCustomMarker,
@@ -221,6 +222,8 @@ export default class Map extends React.Component {
             }
         }
     }
+
+
 
     render() {
         return <div ref={(node) => this.mapNode = node} id="map" />;
