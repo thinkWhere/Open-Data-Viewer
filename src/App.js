@@ -38,7 +38,7 @@ class App extends Component {
 
     onDataLoad(theme) {
         this.setState({dataLoaded:true});
-        this.setThemeState(theme.Name, true)
+        this.setThemeState(theme.Name, true);
         this.setState({loadedThemes: [...this.state.loadedThemes, theme]})
     }
 
@@ -49,7 +49,8 @@ class App extends Component {
                 <InformationModal/>
                 <MapThemesModal themes={this.state.loadedThemes}/>
                 <Navbar/>
-                {this.state.dataLoaded && <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes} themeToggle={this.state.themeVisibility} />}
+                {this.state.dataLoaded && <Sidebar updateAppTheme={this.setThemeState} themes={this.state.loadedThemes}
+                                                   themeToggle={this.state.themeVisibility} />}
                 <Spinner showSpinner={!this.state.dataLoaded}/>
                 <div id="page-wrap">
                     <Map themes={this.appThemes} themeToggle={this.state.themeToggle} dataLoaded={this.onDataLoad} />
