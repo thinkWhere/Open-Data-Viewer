@@ -1,9 +1,8 @@
 import React from 'react';
 import './navbar.css';
 
-export default class Navbar extends React.Component {
-    render() {
-        return (
+export default function Navbar() {
+        const navbar = (
             <React.Fragment>
                 <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-primary navbar-component-top navbar-style">
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -29,5 +28,5 @@ export default class Navbar extends React.Component {
                 </nav>
             </React.Fragment>
         );
-    }
+        return navbar;
 }
