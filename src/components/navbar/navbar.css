@@ -9,3 +9,9 @@ color:white!important;
 .navbar-style{
 background-color:#003285!important;
 }
+
+@media only screen and (max-width: 600px) {
+.secondary-title {
+   display: none;
+  }
+}
