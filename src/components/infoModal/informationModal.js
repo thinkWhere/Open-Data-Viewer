@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function InformationModal() {
 
-    const infoModal = (
+    return (
         <div className="modal fade" id="infoModal" tabIndex="-1" role="dialog"
              aria-labelledby="modalTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" role="document">
@@ -26,6 +26,5 @@ export default function InformationModal() {
             </div>
         </div>
     );
-    return infoModal;
 }
 
