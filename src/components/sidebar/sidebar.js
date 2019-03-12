@@ -16,11 +16,11 @@ export default class Sidebar extends React.Component {
      */
     toggleTheme(themeName) {
         const currentState = this.props.themeToggle[themeName];
-        this.props.updateAppTheme(themeName, !currentState);
+        this.props.updateAppTheme({[themeName]: !currentState});
     }
 
-    render() {
-        const menuItems = this.props.themes.map((theme) =>
+    generateMenuItems() {
+        return (this.props.themes.map((theme) =>
             <div className="menu-item" key="{'menuItem' + this.props.themes.indexOf(theme)}">
                 <div className={this.props.themeToggle[theme.Name] ? 'theme-active media' : 'theme-disable media'}
                      onClick={((e) => this.toggleTheme(theme.Name))} data-id={theme.Name}>
@@ -32,14 +32,16 @@ export default class Sidebar extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+        ));
+    }
 
+    render() {
         return (
             <Menu noOverlay>
                 <div className="menu-item">
                     <h4 className="theme-active">Our Services</h4>
                 </div>
-                {menuItems}
+                {this.generateMenuItems()}
             </Menu>
         );
     }

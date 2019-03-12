@@ -1,8 +1,7 @@
 import React from 'react';
 import './mapThemesModal.css';
 
-export default function MapThemesModal(props) {
-
+export default (props) => {
     const themeInfo = (
         props.themes && props.themes.map((theme) =>
             <div className="media" key={`mapThemesModal + ${props.themes.indexOf(theme)}`}>
@@ -17,7 +16,7 @@ export default function MapThemesModal(props) {
         )
     );
 
-    const themeInfoElement = (
+    return (
         <div className="modal fade" id="themeModal" tabIndex="-1" role="dialog"
              aria-labelledby="modalTitle" aria-hidden="true">
             <div className="modal-dialog modal-dialog-centered" role="document">
@@ -38,5 +37,4 @@ export default function MapThemesModal(props) {
             </div>
         </div>
     );
-    return themeInfoElement;
 }

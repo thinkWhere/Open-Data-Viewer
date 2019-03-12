@@ -32,9 +32,7 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.themeToggle){
-            this.updateMapThemes();
-        }
+        (this.props.themeToggle && this.updateMapThemes());
     }
 
     init(id) {
@@ -61,9 +59,9 @@ export default class Map extends React.Component {
      * Set the OSM Nominatim search control
      */
     setLocationSearch() {
-        let params = mapConfig.search;
-        let provider = new OpenStreetMapProvider({params: params});
-        let searchControl = new GeoSearchControl({
+        const params = mapConfig.search;
+        const provider = new OpenStreetMapProvider({params: params});
+        const searchControl = new GeoSearchControl({
             provider: provider,
             style: 'button',
             position: 'topright',
@@ -80,7 +78,7 @@ export default class Map extends React.Component {
      * @return {L.Control}
      */
     setResetZoom() {
-        let control = new L.Control({position: 'topright'});
+        const control = new L.Control({position: 'topright'});
         control.onAdd = map => {
             let controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
             let controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
@@ -139,7 +137,7 @@ export default class Map extends React.Component {
      * @return {Array} - Array of L.GeoJSON objects
      */
     createGeoJSONPoints(geoJSONLayer) {
-        let geoJSONPoints = [];
+        const geoJSONPoints = [];
         geoJSONLayer.eachLayer(layer => {
             if (layer.feature.geometry.type === 'Polygon') {
                 const polygonProps = layer.feature.properties;
@@ -148,7 +146,7 @@ export default class Map extends React.Component {
                 const marker = new L.marker(center);
                 const markerGeoJson = marker.toGeoJSON();
 
-                let pointLayer = L.geoJSON(markerGeoJson, {
+                const pointLayer = L.geoJSON(markerGeoJson, {
                     pointToLayer: this.createCustomMarker,
                     onEachFeature: (feature, layer) => {
                     // Copy across the feature properties from the polygon to point
@@ -171,7 +169,7 @@ export default class Map extends React.Component {
      * @return {L.marker}
      */
     createCustomMarker(feature, latlng) {
-        let awesomeMarker = L.AwesomeMarkers.icon({
+        const awesomeMarker = L.AwesomeMarkers.icon({
             icon: this.loadingTheme.mapConfig.mapIcon,
             markerColor: this.loadingTheme.mapConfig.color,
             prefix: 'fa',
@@ -185,14 +183,8 @@ export default class Map extends React.Component {
      * @param {L.geoJSON} layer
      */
     bindCustomPopup(feature, layer) {
-        if (layer.feature.geometry.type === 'Polygon') {
-            // Popups are limited to point features only
-            return;
-        }
-
-        if (feature.properties.name) {
-            layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme))
-        }
+        if (layer.feature.geometry.type === 'Polygon') return;
+        (feature.properties.name && layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme)))
     }
 
     /**
@@ -226,6 +218,10 @@ export default class Map extends React.Component {
 
 
     render() {
-        return <div ref={(node) => this.mapNode = node} id="map" />;
+        return (
+            <div id="page-wrap"> 
+                <div ref={(node) => this.mapNode = node} id="map" />;
+            </div>
+        )
     }
 }

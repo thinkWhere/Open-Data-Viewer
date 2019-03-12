@@ -1,8 +1,8 @@
 import React from 'react';
 import './navbar.css';
 
-export default function Navbar() {
-    const navbar = (
+export default () => {
+    return (
         <React.Fragment>
             <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-primary navbar-component-top navbar-style">
                 <button className="navbar-brand btn btn-unstyled navbar-btn-style">Our Falkirk<span className="secondary-title"> - Local Support Services</span></button>
@@ -27,5 +27,4 @@ export default function Navbar() {
             </nav>
         </React.Fragment>
     );
-    return navbar;
 }
