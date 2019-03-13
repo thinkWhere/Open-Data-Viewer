@@ -27,17 +27,16 @@ class App extends Component {
         this.onDataLoad = this.onDataLoad.bind(this);
     }
 
-    setThemeState(themeStatus) {
+    setThemeState(themeStatus) {        
         this.setState(
             {
                 themeVisibility: {...this.state.themeVisibility, ...themeStatus},
-                themeToggle: {themeStatus},
+                themeToggle: themeStatus,
             });
-
     }
 
     onDataLoad(theme) {
-        this.setState({dataLoaded:true});
+        this.setState({dataLoaded: true});
         this.setThemeState({[theme.Name]: true});
         this.setState({loadedThemes: [...this.state.loadedThemes, theme]})
     }
@@ -49,13 +48,11 @@ class App extends Component {
                 <InformationModal/>
                 <MapThemesModal themes={this.state.loadedThemes}/>
                 <Navbar/>
-                {this.state.dataLoaded && 
-                    <Sidebar 
-                        updateAppTheme={this.setThemeState} 
-                        themes={this.state.loadedThemes}
-                        themeToggle={this.state.themeVisibility} 
-                    />
-                }
+                <Sidebar 
+                    updateAppTheme={this.setThemeState} 
+                    themes={this.state.loadedThemes}
+                    themeToggle={this.state.themeVisibility} 
+                />
                 <Spinner showSpinner={!this.state.dataLoaded}/>
                 <Map themes={this.appThemes} themeToggle={this.state.themeToggle} dataLoaded={this.onDataLoad} />
             </React.Fragment>
