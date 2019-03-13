@@ -27,7 +27,7 @@ class App extends Component {
         this.onDataLoad = this.onDataLoad.bind(this);
     }
 
-    setThemeState(themeStatus) {        
+    setThemeState(themeStatus) {
         this.setState(
             {
                 themeVisibility: {...this.state.themeVisibility, ...themeStatus},

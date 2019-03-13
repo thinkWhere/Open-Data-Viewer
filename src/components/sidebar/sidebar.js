@@ -15,9 +15,7 @@ export default class Sidebar extends React.Component {
      * @param themeName
      */
     switchTheme(themeName) {
-        console.log(themeName);
         const currentState = this.props.themeToggle[themeName];
-        console.log(currentState)
         this.props.updateAppTheme({[themeName]: !currentState});
     }
 

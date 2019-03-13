@@ -103,7 +103,7 @@ export default class Map extends React.Component {
             this.setMaps(osmData, theme);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
         })
     }
 
