@@ -1,4 +1,4 @@
-import queryOverpass from '@derhuerst/query-overpass';
+import queryOverpass from './query-overpass';
 import osmtogeojson from 'osmtogeojson';
 
 var toGeoJSON = (data) => {    
