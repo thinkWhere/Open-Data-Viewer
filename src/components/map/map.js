@@ -114,16 +114,11 @@ export default class Map extends React.Component {
         in the format {layerName: <instance of L.Layer>}, this allows us to reference
         it later when we want to add / remove layers from the map.
         */
-
-        console.log([theme.Name])
-        console.log(osmData)
         
         this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
             onEachFeature: this.bindCustomPopup,
             pointToLayer: this.createCustomMarker
         });
-
-        console.log([theme.Name], this.geoJSONLayers[theme.Name])
 
         /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
         leaflet only adds markers to points by default. To get around this, points are created for each
@@ -131,15 +126,11 @@ export default class Map extends React.Component {
         */
         const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
 
-        console.log([theme.Name], geoJSONPointLayers)
-
         geoJSONPointLayers.forEach((geoJSONLayer) => {
             geoJSONLayer.eachLayer(layer => {
                 this.geoJSONLayers[theme.Name].addLayer(layer)
             })
         });
-
-        console.log([theme.Name], this.geoJSONLayers)
 
         this.geoJSONLayers[theme.Name].addTo(this.map);
         this.props.dataLoaded(theme);
