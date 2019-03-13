@@ -48,12 +48,10 @@ function FeatureDetails(props) {
 
     return (
         <div className="pt-2"> {hasFeatureDetails &&
-            <div>
-                <a className="text-decoration-none text-reset" data-toggle="collapse" href="#featureDetails">
-                    <em>Details</em>
-                    <span className="fa fa-chevron-down service-icon"></span>
-                </a>
-            </div>
+            <a className="text-decoration-none text-reset" data-toggle="collapse" href="#featureDetails">
+                <em>Details</em>
+                <span className="fa fa-chevron-down service-icon"></span>
+            </a>
             }
             <div className="collapse" id="featureDetails">
                 <table className="table-sm">{featureDetails}</table>

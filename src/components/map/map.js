@@ -6,7 +6,7 @@ import './map.css';
 import 'leaflet.awesome-markers';
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import { mapConfig }from '../../config.js';
-import OverPassAPIService  from '../../services/overpass.js';
+import queryOverpass  from '../../services/overpass.js';
 import { Popup } from "../popup/popup";
 
 export default class Map extends React.Component {
@@ -14,7 +14,6 @@ export default class Map extends React.Component {
         super(props);
 
         this.mapNode = null;
-        this.APIService = new OverPassAPIService();
         this.map = null;
         this.geoJSONLayers = {};
         this.loadingTheme = null;
@@ -80,8 +79,8 @@ export default class Map extends React.Component {
     setResetZoom() {
         const control = new L.Control({position: 'topright'});
         control.onAdd = map => {
-            let controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
-            let controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
+            const controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
+            const controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
             controlZoomReset.title = "Reset Map View";
 
             L.DomEvent
@@ -93,41 +92,57 @@ export default class Map extends React.Component {
         return control;
     }
 
-
+    
     /**
     * Sets a geojson theme as a layer on the mapNode
     * @param {object} theme - A theme description object
     */
     setTheme(theme) {
-        this.APIService.getTheme(theme, (error, osmData) => {
-            if (!error && osmData.features !== undefined) {
-                this.loadingTheme = theme;
-
-                /* A reference to a geojson layer is stored in the class prop geoJSONLayers object
-                in the format {layerName: <instance of L.Layer>}, this allows us to reference
-                it later when we want to add / remove layers from the map.
-                 */
-                this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
-                    onEachFeature: this.bindCustomPopup,
-                    pointToLayer: this.createCustomMarker
-                });
-
-                /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
-                leaflet only adds markers to points by default. To get around this, points are created for each
-                polygon centroid and then added to the osm geojson layer.
-                */
-                const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
-
-                geoJSONPointLayers.forEach((geoJSONLayer) => {
-                    geoJSONLayer.eachLayer(layer => {
-                        this.geoJSONLayers[theme.Name].addLayer(layer)
-                    })
-                });
-
-                this.geoJSONLayers[theme.Name].addTo(this.map);
-                this.props.dataLoaded(theme);
-            }
+        queryOverpass(theme.overpassQuery)
+        .then((osmData) => {
+            this.setMaps(osmData, theme);
         })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    setMaps(osmData, theme) {        
+        this.loadingTheme = theme;
+
+        /* A reference to a geojson layer is stored in the class prop geoJSONLayers object
+        in the format {layerName: <instance of L.Layer>}, this allows us to reference
+        it later when we want to add / remove layers from the map.
+        */
+
+        console.log([theme.Name])
+        console.log(osmData)
+        
+        this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
+            onEachFeature: this.bindCustomPopup,
+            pointToLayer: this.createCustomMarker
+        });
+
+        console.log([theme.Name], this.geoJSONLayers[theme.Name])
+
+        /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
+        leaflet only adds markers to points by default. To get around this, points are created for each
+        polygon centroid and then added to the osm geojson layer.
+        */
+        const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
+
+        console.log([theme.Name], geoJSONPointLayers)
+
+        geoJSONPointLayers.forEach((geoJSONLayer) => {
+            geoJSONLayer.eachLayer(layer => {
+                this.geoJSONLayers[theme.Name].addLayer(layer)
+            })
+        });
+
+        console.log([theme.Name], this.geoJSONLayers)
+
+        this.geoJSONLayers[theme.Name].addTo(this.map);
+        this.props.dataLoaded(theme);
     }
 
     /**
