@@ -6,7 +6,7 @@ import './map.css';
 import 'leaflet.awesome-markers';
 import 'leaflet.awesome-markers/dist/leaflet.awesome-markers.css';
 import { mapConfig }from '../../config.js';
-import OverPassAPIService  from '../../services/overpass.js';
+import queryOverpass  from '../../services/overpass.js';
 import { Popup } from "../popup/popup";
 
 export default class Map extends React.Component {
@@ -14,7 +14,6 @@ export default class Map extends React.Component {
         super(props);
 
         this.mapNode = null;
-        this.APIService = new OverPassAPIService();
         this.map = null;
         this.geoJSONLayers = {};
         this.loadingTheme = null;
@@ -32,9 +31,7 @@ export default class Map extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.themeToggle){
-            this.updateMapThemes();
-        }
+        (this.props.themeToggle && this.updateMapThemes());
     }
 
     init(id) {
@@ -61,9 +58,9 @@ export default class Map extends React.Component {
      * Set the OSM Nominatim search control
      */
     setLocationSearch() {
-        let params = mapConfig.search;
-        let provider = new OpenStreetMapProvider({params: params});
-        let searchControl = new GeoSearchControl({
+        const params = mapConfig.search;
+        const provider = new OpenStreetMapProvider({params: params});
+        const searchControl = new GeoSearchControl({
             provider: provider,
             style: 'button',
             position: 'topright',
@@ -80,10 +77,10 @@ export default class Map extends React.Component {
      * @return {L.Control}
      */
     setResetZoom() {
-        let control = new L.Control({position: 'topright'});
+        const control = new L.Control({position: 'topright'});
         control.onAdd = map => {
-            let controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
-            let controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
+            const controlDiv = L.DomUtil.create('div', 'leaflet-control-zoom leaflet-bar leaflet-control');
+            const controlZoomReset = L.DomUtil.create('a', 'leaflet-control-zoom fa fa-globe fa-2x', controlDiv);
             controlZoomReset.title = "Reset Map View";
 
             L.DomEvent
@@ -95,41 +92,48 @@ export default class Map extends React.Component {
         return control;
     }
 
-
+    
     /**
     * Sets a geojson theme as a layer on the mapNode
     * @param {object} theme - A theme description object
     */
     setTheme(theme) {
-        this.APIService.getTheme(theme, (error, osmData) => {
-            if (!error && osmData.features !== undefined) {
-                this.loadingTheme = theme;
-
-                /* A reference to a geojson layer is stored in the class prop geoJSONLayers object
-                in the format {layerName: <instance of L.Layer>}, this allows us to reference
-                it later when we want to add / remove layers from the map.
-                 */
-                this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
-                    onEachFeature: this.bindCustomPopup,
-                    pointToLayer: this.createCustomMarker
-                });
-
-                /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
-                leaflet only adds markers to points by default. To get around this, points are created for each
-                polygon centroid and then added to the osm geojson layer.
-                */
-                const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
-
-                geoJSONPointLayers.forEach((geoJSONLayer) => {
-                    geoJSONLayer.eachLayer(layer => {
-                        this.geoJSONLayers[theme.Name].addLayer(layer)
-                    })
-                });
-
-                this.geoJSONLayers[theme.Name].addTo(this.map);
-                this.props.dataLoaded(theme);
-            }
+        queryOverpass(theme.overpassQuery)
+        .then((osmData) => {
+            this.setMaps(osmData, theme);
         })
+        .catch((err) => {
+            console.error(err);
+        })
+    }
+
+    setMaps(osmData, theme) {        
+        this.loadingTheme = theme;
+
+        /* A reference to a geojson layer is stored in the class prop geoJSONLayers object
+        in the format {layerName: <instance of L.Layer>}, this allows us to reference
+        it later when we want to add / remove layers from the map.
+        */
+        
+        this.geoJSONLayers[theme.Name] = L.geoJSON(osmData, {
+            onEachFeature: this.bindCustomPopup,
+            pointToLayer: this.createCustomMarker
+        });
+
+        /* The geojson data received from OSM may include both points (nodes) and polygons(ways), but
+        leaflet only adds markers to points by default. To get around this, points are created for each
+        polygon centroid and then added to the osm geojson layer.
+        */
+        const geoJSONPointLayers = this.createGeoJSONPoints(this.geoJSONLayers[theme.Name]);
+
+        geoJSONPointLayers.forEach((geoJSONLayer) => {
+            geoJSONLayer.eachLayer(layer => {
+                this.geoJSONLayers[theme.Name].addLayer(layer)
+            })
+        });
+
+        this.geoJSONLayers[theme.Name].addTo(this.map);
+        this.props.dataLoaded(theme);
     }
 
     /**
@@ -139,7 +143,7 @@ export default class Map extends React.Component {
      * @return {Array} - Array of L.GeoJSON objects
      */
     createGeoJSONPoints(geoJSONLayer) {
-        let geoJSONPoints = [];
+        const geoJSONPoints = [];
         geoJSONLayer.eachLayer(layer => {
             if (layer.feature.geometry.type === 'Polygon') {
                 const polygonProps = layer.feature.properties;
@@ -148,7 +152,7 @@ export default class Map extends React.Component {
                 const marker = new L.marker(center);
                 const markerGeoJson = marker.toGeoJSON();
 
-                let pointLayer = L.geoJSON(markerGeoJson, {
+                const pointLayer = L.geoJSON(markerGeoJson, {
                     pointToLayer: this.createCustomMarker,
                     onEachFeature: (feature, layer) => {
                     // Copy across the feature properties from the polygon to point
@@ -171,7 +175,7 @@ export default class Map extends React.Component {
      * @return {L.marker}
      */
     createCustomMarker(feature, latlng) {
-        let awesomeMarker = L.AwesomeMarkers.icon({
+        const awesomeMarker = L.AwesomeMarkers.icon({
             icon: this.loadingTheme.mapConfig.mapIcon,
             markerColor: this.loadingTheme.mapConfig.color,
             prefix: 'fa',
@@ -185,14 +189,8 @@ export default class Map extends React.Component {
      * @param {L.geoJSON} layer
      */
     bindCustomPopup(feature, layer) {
-        if (layer.feature.geometry.type === 'Polygon') {
-            // Popups are limited to point features only
-            return;
-        }
-
-        if (feature.properties.name) {
-            layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme))
-        }
+        if (layer.feature.geometry.type === 'Polygon') return;
+        (feature.properties.name && layer.bindPopup(Popup(layer.feature.properties, this.loadingTheme)))
     }
 
     /**
@@ -226,6 +224,10 @@ export default class Map extends React.Component {
 
 
     render() {
-        return <div ref={(node) => this.mapNode = node} id="map" />;
+        return (
+            <div id="page-wrap"> 
+                <div ref={(node) => this.mapNode = node} id="map" />;
+            </div>
+        )
     }
 }

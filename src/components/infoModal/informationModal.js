@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function InformationModal() {
-
+export default () => {
     return (
         <div className="modal fade" id="infoModal" tabIndex="-1" role="dialog"
              aria-labelledby="modalTitle" aria-hidden="true">

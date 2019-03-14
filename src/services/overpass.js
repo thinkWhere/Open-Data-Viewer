@@ -1,13 +1,26 @@
-import query_overpass from "query-overpass";
+import queryOverpass from './query-overpass';
+import osmtogeojson from 'osmtogeojson';
 
-export default class OverPassAPIService {
-    getTheme(theme, callback) {
-        const query = theme.overpassQuery;
-        const options = {
-            // Flatten geojson structure
-            flatProperties: true
-        };
+var toGeoJSON = (data) => {    
+   const geojson = osmtogeojson(data, {
+        flatProperties: true
+    });
+    return geojson
+};
 
-        query_overpass(query, callback, options);
-    }
+const overpassGeoJSON = async (overpassQuery) => {
+    return new Promise((resolve, reject) => {
+        queryOverpass(overpassQuery)
+        .then((osmData) => {
+            const geojson = toGeoJSON({elements: osmData}, {flatProperties: true});
+            resolve(geojson);
+        })
+        .catch((err) => {
+            console.error(err);
+            reject('Error: the overpass API request was not completed')
+        })
+    });
 }
+
+export default overpassGeoJSON;
+

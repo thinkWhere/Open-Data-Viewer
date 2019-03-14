@@ -8,17 +8,16 @@ import './popup.css';
  */
 function AddressDetails(props) {
     const address = parseAddress(props);
-    const element = (
-        <div>
+    return (
+        <React.Fragment>
             <h6 className="mb-0">{props.name}</h6>
             {address &&
-            <p className="mb-1 mt-0 text-muted">
-                {address}<br/>
-            </p>
+                <p className="mb-1 mt-0 text-muted">
+                    {address}<br/>
+                </p>
             }
-        </div>
+        </React.Fragment>
     );
-    return element;
 }
 
 /**
@@ -27,34 +26,32 @@ function AddressDetails(props) {
  * @return {React Component}
  */
 function FeatureDetails(props) {
-    let hasFeatureDetails = !!(props.phone || props.website || props.wheelchair);
+    const hasFeatureDetails = !!(props.phone || props.website || props.wheelchair);
     if (!hasFeatureDetails) { return null };
 
     const featureDetails = (
-        <div>
+        <React.Fragment>
             {props.phone &&
-            <div>
-                <span className="fa fa-phone service-icon"></span>
-                <span>{props.phone}</span>
-            </div>
+                <div>
+                    <span className="fa fa-phone service-icon"></span>
+                    <span>{props.phone}</span>
+                </div>
             }
             {props.website &&
-            <div>
-                <span className="fa fa-globe-europe service-icon"></span>
-                <span><a href={props.website} target="_blank" rel="noopener noreferrer">Website</a></span>
-            </div>
+                <div>
+                    <span className="fa fa-globe-europe service-icon"></span>
+                    <span><a href={props.website} target="_blank" rel="noopener noreferrer">Website</a></span>
+                </div>
             }
-        </div>
+        </React.Fragment>
     );
 
-    const element = (
+    return (
         <div className="pt-2"> {hasFeatureDetails &&
-            <div>
-                <a className="text-decoration-none text-reset" data-toggle="collapse" href="#featureDetails">
-                    <em>Details</em>
-                    <span className="fa fa-chevron-down service-icon"></span>
-                </a>
-            </div>
+            <a className="text-decoration-none text-reset" data-toggle="collapse" href="#featureDetails">
+                <em>Details</em>
+                <span className="fa fa-chevron-down service-icon"></span>
+            </a>
             }
             <div className="collapse" id="featureDetails">
                 <table className="table-sm">{featureDetails}</table>
@@ -62,7 +59,6 @@ function FeatureDetails(props) {
             </div>
         </div>
     );
-    return element;
 }
 
 

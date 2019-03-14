@@ -7,23 +7,23 @@ export default class Sidebar extends React.Component {
 
     constructor(props) {
         super(props);
-        this.toggleTheme = this.toggleTheme.bind(this);
+        this.switchTheme = this.switchTheme.bind(this);
     }
 
     /**
      * Toggles a theme between true (visible) or false (not visible)
      * @param themeName
      */
-    toggleTheme(themeName) {
+    switchTheme(themeName) {
         const currentState = this.props.themeToggle[themeName];
-        this.props.updateAppTheme(themeName, !currentState);
+        this.props.updateAppTheme({[themeName]: !currentState});
     }
 
-    render() {
-        const menuItems = this.props.themes.map((theme) =>
+    generateMenuItems() {
+        return (this.props.themes.map((theme) =>
             <div className="menu-item" key="{'menuItem' + this.props.themes.indexOf(theme)}">
                 <div className={this.props.themeToggle[theme.Name] ? 'theme-active media' : 'theme-disable media'}
-                     onClick={((e) => this.toggleTheme(theme.Name))} data-id={theme.Name}>
+                     onClick={((e) => this.switchTheme(theme.Name))} data-id={theme.Name}>
                     <div className={`align-self-end mr-3 awesome-marker-icon-${theme.mapConfig.color} awesome-marker`}>
                         <i className={`fa fa-${theme.mapConfig.mapIcon} icon-white fa-inverse`}></i>
                     </div>
@@ -32,14 +32,16 @@ export default class Sidebar extends React.Component {
                     </div>
                 </div>
             </div>
-        );
+        ));
+    }
 
+    render() {
         return (
             <Menu noOverlay>
                 <div className="menu-item">
                     <h4 className="theme-active">Our Services</h4>
                 </div>
-                {menuItems}
+                {this.generateMenuItems()}
             </Menu>
         );
     }
