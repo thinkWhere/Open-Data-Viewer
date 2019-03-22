@@ -44,14 +44,70 @@ An example theme is listed in src/themes/example.js
 The theme object is a Javascript object specifying the name, title, description and the OpenStreetMap OverPass query 
 used to query the data on the OpenStreetMap servers. 
 
-The different options for the theme definition are described below: 
+The different options for the theme definition, and how the different options are used by the application 
+are described below: 
 
-| Tables        | Are           | Cool  |
+| Option      | Description           | Usage |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| name     | The name of the theme | Used internally by the application to reference the theme |
+| Title      | The prettified name of the theme      |   Used by the application sidebar to display the theme |
+| AttributeTags  |  Describes the feature attributes of interest | Used by a popup of feature information    |
+|  overPassQuery   | Defines the query used by the Overpass API    | Used to extract data from OpenSteetMap    |
+| mapConfig  | Defines the font-awesome-icon and colour    | Used by leaflet as the feature marker     |
 
 
 
 
+Example theme:
+
+```javascript
+
+const school = {
+    Name: "schools",
+    Title: "Example theme - Schools",
+    Headline: "Shows locations of schools",
+    Description: "An example OpenStreetMap theme, showing the location of schools.",
+    Author: "Martin Clarke",
+    AttributeTags: [],
+    overpassQuery: `[out:json];\
+        (way["amenity"~"(school)$"](around:5000,56.0019,-3.7893);\
+        relation["amenity"~"(school)$"](around:5000,56.0019,-3.7893);\
+        node["amenity"~"(school)$"](around:5000,56.0019,-3.7893););\
+        out body;>;out skel qt;`,
+    mapConfig: {
+         mapIcon: "school",
+         color: "blue"
+    }
+};
+
+export {
+    school
+};
+
+```
+
+## More on AttributeTags
+
+The attributeTags definition for a theme describes the feature attributes of interest and how themes are mapped to 
+OpenStreetMap tags. In the example listed below, the attribue "Internet Access" maps to the "internet_access" OSM tag.
+If a feature has the internet_access tag an the tag value is in the list of expected values given by the 'attributesValues'
+list, the popup for the feature will display "Internet Access" alongside the associated font-awesome icon ("wifi").  
+
+```javascript
+AttributeTags: [
+         {  attributeName: "Internet Access",
+            attributeTag: "internet_access",
+            attributeValues: ["wlan", "yes", "terminal", "wifi", "service"],
+            icon: "wifi"
+        }
+```
+For more information on OSM tags and usage see [taginfo](https://taginfo.openstreetmap.org/)
+
+## More on Overpass Queries
+
+The query defined in the theme config is in OverPass QL format.   This query language allows for a wide variety of 
+query definitions. A comprehensive overview is given on this [OSM wiki](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL)
+
+
+
+```
