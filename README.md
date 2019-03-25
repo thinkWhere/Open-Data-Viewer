@@ -1,4 +1,4 @@
-#About this Project
+## About this Project
 This project provides a simple and customisable template for building web applications with Leaflet and OpenSteetMap. 
 
 Features
