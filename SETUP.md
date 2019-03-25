@@ -6,7 +6,7 @@ OSM via the Overpass API.
 
 
 ## App Config
-The coniguration for the app is stored in the file src/themes/config.js
+The configuration for the app is stored in the file src/themes/config.js
 
 Within this config file the appConfig object provides a convenient way to customise the application text. 
 
@@ -23,14 +23,15 @@ The Title and SubTitle descriptions are used by the application navbar and infor
 HTML markup and formatting, the textual components can be updated in the corresponding React components themselves, found 
 in the src/components folder. 
 
-
+## Map Config
 The mapConfig object sets the configuration options for leaflet. 
 
 Here, there are options to set the map centre when the application loads, the initial zoom level and the map bounds. 
 The most important options here set the map centre and bounds:
-
-`center: [56.0019, -3.789]`   - sets the map centre to the specified lat / long
- `maxBounds: ([[55.7, -4.3], [56.3, -3.1]])`  - sets the bounding box of the map canvas
+```javascript
+center: [56.0019, -3.789]
+maxBounds: ([[55.7, -4.3], [56.3, -3.1]]) 
+```
 
 For more information see the leaflet [documentation](https://leafletjs.com/reference-1.4.0.html#map-factory) 
 
@@ -66,7 +67,7 @@ are described below:
 
 | Option      | Description           | Usage |
 | ------------- |:-------------| :-----|
-| name     | The name of the theme | Used internally by the application to reference the theme |
+| Name     | The name of the theme | Used internally by the application to reference the theme |
 | Title      | The prettified name of the theme      |   Used by the application sidebar to display the theme |
 | AttributeTags  |  Describes the feature attributes of interest | Used by a popup of feature information    |
 |  overPassQuery   | Defines the query used by the Overpass API    | Used to extract data from OpenSteetMap    |
@@ -103,9 +104,9 @@ export {
 
 ```
 
-## More on AttributeTags
+## Defining AttributeTags
 
-The attributeTags definition for a theme describes the feature attributes of interest and how themes are mapped to 
+The attributeTags definition for a theme describes the feature attributes of interest and how themes map to 
 OpenStreetMap tags. This allows control over what type of information to display in a feature information popup. 
 
 In the example listed below, the attribue "Internet Access" maps to the "internet_access" OSM tag.
@@ -127,6 +128,3 @@ For more information on OSM tags and usage see [taginfo](https://taginfo.openstr
 The query defined in the theme config is in OverPass QL format.   This query language allows for a wide variety of 
 query definitions. A comprehensive overview is given on this [OSM wiki](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL)
 
-
-
-```
