@@ -1,11 +1,12 @@
 import React from 'react';
 import './navbar.css';
+import { appConfig } from '../../config';
 
 export default () => {
     return (
         <React.Fragment>
             <nav className="navbar fixed-top navbar-expand-sm navbar-dark bg-primary navbar-component-top navbar-style">
-                <button className="navbar-brand btn btn-unstyled navbar-btn-style">Our Falkirk<span className="secondary-title"> - Local Support Services</span></button>
+                <button className="navbar-brand btn btn-unstyled navbar-btn-style">{appConfig.Title}<span className="secondary-title"> - {appConfig.SubTitle}</span></button>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
