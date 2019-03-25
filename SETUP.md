@@ -121,6 +121,9 @@ AttributeTags: [
             icon: "wifi"
         }
 ```
+
+![alt text]('./resources/popup_example.png "Example popup")
+
 For more information on OSM tags and usage see [taginfo](https://taginfo.openstreetmap.org/)
 
 ## More on Overpass Queries
