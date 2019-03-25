@@ -2,7 +2,6 @@ import { digiAccess } from './themes/digital-access';
 import { foodProvision } from './themes/food_provision';
 import { helpAdvice } from './themes/help_advice';
 import { councilHelpAdvice} from "./themes/council_help"
-import { school } from "./themes/example"
 
 /* App config.
 mapConfig stores options for Leaflet maps.   tileLayer defines the provider
@@ -38,10 +37,10 @@ const mapConfig = {
         viewbox: "-3.9,55.9,-3.6,56.1",
         bounded: 1,
         limit: 10
-    },
+    }
 };
 
-const appThemes = [school];
+const appThemes = [digiAccess, foodProvision, helpAdvice, councilHelpAdvice];
 
 export {
     mapConfig, appThemes, appConfig
