@@ -15,23 +15,7 @@ export default () => {
                     </div>
                     <div className="modal-body">
                         <p>
-                            <span className="font-weight-bold">Our Falkirk</span> can help you find the location of useful local support services in Falkirk.
-                        </p>
-                        <p>
-                            You can use the menu on the left hand side of the screen to select the type of service you
-                            would like to see and these will be highlighted on the map. Simply click on a point on the
-                            map to view the details of that service including its address and opening times.
-                        </p>
-                        <p className="lead font-italic text-danger">
-                            Disclaimer – This map has been developed as a community tool. Falkirk Council doesn’t
-                            endorse or verify the services displayed and would encourage users to contact individual
-                            services directly for more information.
-                        </p>
-                        <p>
-                            If you have any questions, comments or feedback please get in touch.
-                        </p>
-                        <p>
-                            <a href="mailto:fairerfalkirk@falkirk.gov.uk">fairerfalkirk@falkirk.gov.uk</a>
+                            { appConfig.Info }
                         </p>
                     </div>
                     <div className="modal-footer">

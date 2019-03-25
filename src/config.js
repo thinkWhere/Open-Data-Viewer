@@ -1,7 +1,4 @@
-import { digiAccess } from './themes/digital-access';
-import { foodProvision } from './themes/food_provision';
-import { helpAdvice } from './themes/help_advice';
-import { councilHelpAdvice} from "./themes/council_help"
+import { school } from "./themes/example";
 
 /* App config.
 mapConfig stores options for Leaflet maps.   tileLayer defines the provider
@@ -9,9 +6,9 @@ for background mapping.
 */
 
 const appConfig = {
-    Title: "Our Falkirk",
-    SubTitle: "Local Support Services",
-    Info: "An example application using OpenSteetMap and Leaflet"
+    Title: "Open Data Viewer",
+    SubTitle: "OpenSteetMap and Leaflet",
+    Info: "An example open data web map using OpenSteetMap and Leaflet"
 };
 
 const mapConfig = {
@@ -40,7 +37,7 @@ const mapConfig = {
     }
 };
 
-const appThemes = [digiAccess, foodProvision, helpAdvice, councilHelpAdvice];
+const appThemes = [school];
 
 export {
     mapConfig, appThemes, appConfig
