@@ -122,7 +122,7 @@ AttributeTags: [
         }
 ```
 
-![Example popup](../resources/popup_example.png "Example popup")
+![Example popup](resources/popup_example.PNG "Example popup")
 
 For more information on OSM tags and usage see [taginfo](https://taginfo.openstreetmap.org/)
 
