@@ -121,6 +121,7 @@ AttributeTags: [
             attributeValues: ["wlan", "yes", "terminal", "wifi", "service"],
             icon: "wifi"
         }
+ ]
 ```
 
 ![Example popup](resources/popup_example.PNG "Example popup")
