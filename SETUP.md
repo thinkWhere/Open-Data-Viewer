@@ -8,7 +8,24 @@ OSM via the Overpass API.
 ## App Config
 The coniguration for the app is stored in the file src/themes/config.js
 
-The mapConfig sets the configuration options for leaflet. 
+Within this config file the appConfig object provides a convenient way to customise the application text. 
+
+```javascript
+const appConfig = {
+    Title: "Our Falkirk",
+    SubTitle: "Local Support Services",
+    Info: "An example application using OpenSteetMap and Leaflet"
+};
+
+```
+
+The Title and SubTitle descriptions are used by the application navbar and information modal.   For more control over the 
+HTML markup and formatting, the textual components can be updated in the corresponding React components themselves, found 
+in the src/components folder. 
+
+
+The mapConfig object sets the configuration options for leaflet. 
+
 Here, there are options to set the map centre when the application loads, the initial zoom level and the map bounds. 
 The most important options here set the map centre and bounds:
 
@@ -48,7 +65,7 @@ The different options for the theme definition, and how the different options ar
 are described below: 
 
 | Option      | Description           | Usage |
-| ------------- |:-------------:| -----:|
+| ------------- |:-------------| :-----|
 | name     | The name of the theme | Used internally by the application to reference the theme |
 | Title      | The prettified name of the theme      |   Used by the application sidebar to display the theme |
 | AttributeTags  |  Describes the feature attributes of interest | Used by a popup of feature information    |
@@ -89,8 +106,10 @@ export {
 ## More on AttributeTags
 
 The attributeTags definition for a theme describes the feature attributes of interest and how themes are mapped to 
-OpenStreetMap tags. In the example listed below, the attribue "Internet Access" maps to the "internet_access" OSM tag.
-If a feature has the internet_access tag an the tag value is in the list of expected values given by the 'attributesValues'
+OpenStreetMap tags. This allows control over what type of information to display in a feature information popup. 
+
+In the example listed below, the attribue "Internet Access" maps to the "internet_access" OSM tag.
+If a feature has the internet_access tag and the tag value is in the list of expected values given by the 'attributesValues'
 list, the popup for the feature will display "Internet Access" alongside the associated font-awesome icon ("wifi").  
 
 ```javascript

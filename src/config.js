@@ -9,6 +9,12 @@ mapConfig stores options for Leaflet maps.   tileLayer defines the provider
 for background mapping.
 */
 
+const appConfig = {
+    Title: "Our Falkirk",
+    SubTitle: "Local Support Services",
+    Info: "An example application using OpenSteetMap and Leaflet"
+};
+
 const mapConfig = {
     params: {
         center: [56.0019, -3.789],
@@ -32,11 +38,11 @@ const mapConfig = {
         viewbox: "-3.9,55.9,-3.6,56.1",
         bounded: 1,
         limit: 10
-    }
+    },
 };
 
 const appThemes = [school];
 
 export {
-    mapConfig, appThemes
+    mapConfig, appThemes, appConfig
 };
