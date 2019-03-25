@@ -1,4 +1,4 @@
-import { school } from "./themes/example";
+import { school, digiAccess } from "./themes/example";
 
 /* App config.
 mapConfig stores options for Leaflet maps.   tileLayer defines the provider
@@ -37,7 +37,7 @@ const mapConfig = {
     }
 };
 
-const appThemes = [school];
+const appThemes = [school, digiAccess];
 
 export {
     mapConfig, appThemes, appConfig
