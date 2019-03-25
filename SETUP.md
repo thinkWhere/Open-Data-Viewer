@@ -106,8 +106,9 @@ export {
 
 ## Defining AttributeTags
 
-The attributeTags definition for a theme describes the feature attributes of interest and how themes map to 
-OpenStreetMap tags. This allows control over what type of information to display in a feature information popup. 
+The attributeTags definition for a theme describes the feature attributes of interest and how these attributes map to 
+OpenStreetMap tags. This allows control over what type of information to display in a feature information popup, in addition
+to the default address details and opening times.
 
 In the example listed below, the attribue "Internet Access" maps to the "internet_access" OSM tag.
 If a feature has the internet_access tag and the tag value is in the list of expected values given by the 'attributesValues'
