@@ -69,6 +69,7 @@ are described below:
 | ------------- |:-------------| :-----|
 | Name     | The name of the theme | Used internally by the application to reference the theme |
 | Title      | The prettified name of the theme      |   Used by the application sidebar to display the theme |
+| Description      | Desribes the purpose of the theme    |   Used by the Map Themes popup to display theme information |
 | AttributeTags  |  Describes the feature attributes of interest | Used by a popup of feature information    |
 |  overPassQuery   | Defines the query used by the Overpass API    | Used to extract data from OpenSteetMap    |
 | mapConfig  | Defines the font-awesome-icon and colour    | Used by leaflet as the feature marker     |
