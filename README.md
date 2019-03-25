@@ -1,4 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## About this Project
+This project provides a simple and customisable template for building web applications with Leaflet and OpenSteetMap. 
+
+Features
+* Developed with React JS 
+* Client-side handling of OpenSteetMap’s Overpass API  
+* Bootstrap
+* Marker icons with [leaflet.awesome-markers](https://www.npmjs.com/package/leaflet.awesome-markers)
+
+
+The project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+Information on running and deploying the application can be found below.  For information on customising the application – see  SETUP.md.
 
 ## Available Scripts
 
