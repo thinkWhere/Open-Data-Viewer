@@ -1,39 +1,51 @@
-const school = {
-    Name: "schools",
-    Title: "Example theme - Schools",
-    Headline: "Shows locations of schools",
-    Description: "An example OpenStreetMap theme, showing the location of schools.",
-    Author: "Martin Clarke",
+const helpAdvice = {
+    Name: "helpAdvice",
+    Title: "Example Theme - Community Information and Advice ",
+    Headline: "Shows locations of places where advice is provided",
+    Description: "Shows community based help and advice offices",
+    Author: "MartinClarke",
     AttributeTags: [
-         {  attributeName: "Internet Access",
-            attributeTag: "internet_access",
-            attributeValues: ["wlan", "yes", "terminal", "wifi", "service"],
-            icon: "wifi"
-        }
-        ],
+        {   attributeName: "Citizens Advice",
+            attributeTag: "social_facility",
+            attributeValues: ["citizens_advice"],
+            icon: "hands-helping"
+        },
+        {
+            attributeName: "Financial Support",
+            attributeTag: "social_facility",
+            attributeValues: ["financial_services"],
+            icon: "hands-helping"
+        },
+        {
+            attributeName: "Family Support & Social Advice",
+            attributeTag: "social_facility",
+            attributeValues: ["advice_service"],
+            icon: "users"
+        },
+        {
+            attributeName: "Mental Health Support",
+            attributeTag: "healthcare",
+            attributeValues: ["mental_health"],
+            icon:"hands-helping"
+        },
+    ],
     overpassQuery: `[out:json];\
-        (way["amenity"~"(school)$"](around:5000,56.0019,-3.7893);\
-        relation["amenity"~"(school)$"](around:5000,56.0019,-3.7893);\
-        node["amenity"~"(school)$"](around:5000,56.0019,-3.7893););\
+        (way["amenity"="social_facility"][~"^(healthcare|social_facility)$"~"(financial_services|advice_service|mental_health|citizens_advice)$"](around:20000,56.0019,-3.7893);\
+        node["amenity"="social_facility"][~"^(healthcare|social_facility)$"~"(financial_services|advice_service|mental_health|citizens_advice)$"](around:20000,56.0019,-3.7893););\
         out body;>;out skel qt;`,
     mapConfig: {
-         mapIcon: "school",
-         color: "blue"
+         mapIcon: "hands-helping",
+         color: "darkblue"
     }
 };
 
-
 const digiAccess = {
     Name: "digitalAccess",
-    Title: "Digital Access",
-    Headline: "Shows locations of places that provides access to digital Services",
-    Description: "This theme shows locations that provide access to digital services.  These include access to " +
+    Title: "Example theme - Community Digital Access",
+    Headline: "Shows community locations that provides access to digital Services",
+    Description: "This theme shows community locations that provide access to digital services.  These include access to " +
     "printing facilities, access to computers for public use and Wifi / internet access",
     Author: "MartinClarke",
-    OSMFeatures: ["ways", "relations", "nodes"],
-    GeoTags: {
-        "amenity": ["library", "community_centre"]
-    },
     AttributeTags: [
          {  attributeName: "Internet Access",
             attributeTag: "internet_access",
@@ -69,5 +81,5 @@ const digiAccess = {
     };
 
 export {
-    school, digiAccess
+    helpAdvice, digiAccess
 };
