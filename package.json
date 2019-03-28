@@ -11,8 +11,10 @@
     "osmtogeojson": "^3.0.0-beta.3",
     "p-retry": "^4.0.0",
     "pinkie-promise": "^2.0.1",
+    "polyfill-array-includes": "^2.0.0",
     "query-string": "^6.3.0",
     "react": "^16.7.0",
+    "react-app-polyfill": "^0.2.2",
     "react-burger-menu": "^2.6.1",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.2"
