@@ -78,3 +78,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+## Licence
+This sotware is released under the MIT licence.
+* [MIT Licence](https://opensource.org/licenses/mit-license.html)
+* [Font Awesome](https://fontawesome.com/license/free)
+* [Bootstrap](https://getbootstrap.com/)
+
+
