@@ -23,7 +23,7 @@ const mapConfig = {
         uri: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png",
         params: {
             minZoom: 11,
-            attribution: "&copy; OpenStreetMap contributors &amp; <a href=&quot;https://wikimediafoundation.org/wiki/Maps_Terms_of_Use&quot;>Wikimedia</a>",
+            attribution: "&copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors &amp; <a href='https://wikimediafoundation.org/wiki/Maps_Terms_of_Use'>Wikimedia</a>",
             id: '',
             accessToken: ''
         },
