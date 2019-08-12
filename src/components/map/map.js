@@ -226,7 +226,7 @@ export default class Map extends React.Component {
     render() {
         return (
             <div id="page-wrap"> 
-                <div ref={(node) => this.mapNode = node} id="map" />;
+                <div ref={(node) => this.mapNode = node} id="map" />
             </div>
         )
     }

@@ -1,5 +1,6 @@
+/* Reserve 56px for the header */
 #map {
-    height: 100vh;
+    height: calc(100vh - 56px);
 }
 
 /* Override the leaflet zoom control positioning so controls are not lost behind navbar*/
