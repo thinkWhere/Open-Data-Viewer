@@ -20,7 +20,7 @@ const mapConfig = {
         maxBounds: ([[55.7, -4.3], [56.3, -3.1]]),
     },
     tileLayer: {
-        uri: "https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png",
+        uri: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         params: {
             minZoom: 11,
             attribution: "&copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors &amp; <a href='https://wikimediafoundation.org/wiki/Maps_Terms_of_Use'>Wikimedia</a>",
